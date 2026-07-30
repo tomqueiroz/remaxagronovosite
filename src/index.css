@@ -1,0 +1,287 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Condensed:wght@700;900&family=Roboto+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+==========================================================================
+【AI HANDOVER NOTE】
+1. DESIGN PHILOSOPHY:
+   - Core design philosophy: Premium Institutional Authority with Brazilian Agribusiness Sophistication
+   - Visual style: Neo-minimalism with Physicality — clean surfaces, generous whitespace, subtle rim-light effects on cards to convey premium quality without ostentation
+   - Variance level: LOW — this is a high-trust corporate brand serving fazendeiros and institutional investors; restraint and precision signal credibility over flashiness
+   - Why this style: REMAX Agro operates at the intersection of global real estate standards (REMAX) and Brazilian agribusiness expertise (DATAGRO). The design must feel authoritative, modern, and distinctly Brazilian — not generic SaaS, not American suburban real estate. The tagline 'Todo agronegócio é, antes de mais nada, um negócio imobiliário' positions land as the foundational asset class; the visual language must reflect that gravitas.
+
+2. TYPOGRAPHY:
+   - Montserrat (Sans): chosen for its geometric clarity and modern professionalism — widely recognized in Brazilian corporate design, it carries institutional weight without feeling cold. Its tall x-height ensures excellent readability for Portuguese text with diacritics (ã, ç, õ). The multiple weights (400-800) allow clear typographic hierarchy from body copy to bold CTAs.
+   - IBM Plex Mono: selected for data-heavy contexts (property valuations, hectare metrics, investment figures) — its technical precision reinforces the DATAGRO analytics partnership and conveys numerical accuracy.
+   - Gotham/Arial fallback: ensures brand consistency even when web fonts fail to load, maintaining the geometric sans aesthetic.
+
+3. COLOR SYSTEM:
+   - Brand primary hue: 220° (deep institutional blue) — derived directly from the existing REMAX Agro Dark Blue (#000E35) and Bridge Blue (#0C2749). This hue family conveys trust, stability, and corporate authority in Brazilian financial/real estate contexts.
+   - Color mapping: --primary uses the 220° hue at medium-high chroma for interactive elements (CTAs, links); --accent introduces a controlled terracotta/earth tone (hue 20°, low chroma) to subtly reference Brazilian soil and agribusiness without literalism. --ring uses the primary blue for focus states.
+   - Semantic colors: --destructive (hue 355°, burgundy-red leaning) references the Bridge Red (#AA1120) but desaturated for UI appropriateness; --success (hue 150°, muted green) nods to agricultural fertility without cliché; --warning (hue 45°, amber) for alerts.
+   - Neutrals: all background/card/muted tokens carry a faint blue tint (C≈0.008-0.015) to create a cohesive, premium atmosphere — pure gray would feel generic. Dark mode uses deeper navy backgrounds to maintain brand continuity.
+
+4. USAGE GUIDE:
+   - Layout type: Full-width sections with centered max-width containers (1280px) — allows hero imagery of Brazilian farmland to breathe while keeping content readable
+   - Recommended effects: Subtle backdrop-blur on navigation overlays; rim-light (1px top border with reduced opacity white) on card elements to add physicality; avoid heavy shadows — prefer border-based separation for a cleaner, more modern feel
+   - Typography rhythm: Use Montserrat 700-800 for headings, 500-600 for subheadings, 400 for body. Maintain generous line-height (1.6-1.8) for Portuguese readability
+   - Imagery: All photography must feature Brazilian landscapes (cerrado, pampas, cana fields) with warm natural light — avoid stock imagery with foreign architecture or crops
+   - Interactive states: Primary blue hover states with slight lightness increase; focus rings must be visible for accessibility (WCAG AA compliance mandatory for corporate site)
+   - Cultural note: Brazilian corporate design favors clarity and directness over playfulness — CTAs should be confident ('Fale com um Corretor') not cutesy. The sealed corretores certification and DATAGRO partnership logos must have prominent, respectful placement.
+==========================================================================
+*/
+
+:root {
+  /* Typography — Roboto family */
+  --font-sans: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Arial, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Core UI Tokens */
+  --background: oklch(0.99 0.008 220);
+  --foreground: oklch(0.15 0.012 220);
+  --card: oklch(0.98 0.01 220);
+  --card-foreground: oklch(0.18 0.012 220);
+  --popover: oklch(0.99 0.008 220);
+  --popover-foreground: oklch(0.15 0.012 220);
+  --primary: oklch(0.38 0.14 220);
+  --primary-foreground: oklch(0.98 0.008 220);
+  --secondary: oklch(0.92 0.015 220);
+  --secondary-foreground: oklch(0.22 0.012 220);
+  --muted: oklch(0.95 0.012 220);
+  --muted-foreground: oklch(0.48 0.02 220);
+  --accent: oklch(0.88 0.035 20);
+  --accent-foreground: oklch(0.25 0.025 20);
+  --destructive: oklch(0.48 0.15 355);
+  --destructive-foreground: oklch(0.98 0.008 355);
+  --border: oklch(0.88 0.015 220);
+  --input: oklch(0.88 0.015 220);
+  --ring: oklch(0.42 0.14 220);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.45 0.13 220);
+  --chart-2: oklch(0.58 0.12 150);
+  --chart-3: oklch(0.62 0.11 20);
+  --chart-4: oklch(0.52 0.14 355);
+  --chart-5: oklch(0.55 0.09 45);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.97 0.01 220);
+  --sidebar-foreground: oklch(0.22 0.012 220);
+  --sidebar-primary: oklch(0.38 0.14 220);
+  --sidebar-primary-foreground: oklch(0.98 0.008 220);
+  --sidebar-accent: oklch(0.88 0.035 20);
+  --sidebar-accent-foreground: oklch(0.25 0.025 20);
+  --sidebar-border: oklch(0.88 0.015 220);
+  --sidebar-ring: oklch(0.42 0.14 220);
+}
+
+.dark {
+  --background: oklch(0.12 0.018 220);
+  --foreground: oklch(0.92 0.01 220);
+  --card: oklch(0.15 0.02 220);
+  --card-foreground: oklch(0.9 0.01 220);
+  --popover: oklch(0.13 0.018 220);
+  --popover-foreground: oklch(0.92 0.01 220);
+  --primary: oklch(0.58 0.16 220);
+  --primary-foreground: oklch(0.12 0.018 220);
+  --secondary: oklch(0.22 0.025 220);
+  --secondary-foreground: oklch(0.88 0.01 220);
+  --muted: oklch(0.2 0.022 220);
+  --muted-foreground: oklch(0.62 0.018 220);
+  --accent: oklch(0.48 0.055 20);
+  --accent-foreground: oklch(0.95 0.008 20);
+  --destructive: oklch(0.55 0.18 355);
+  --destructive-foreground: oklch(0.95 0.008 355);
+  --border: oklch(0.25 0.025 220);
+  --input: oklch(0.25 0.025 220);
+  --ring: oklch(0.62 0.16 220);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.62 0.15 220);
+  --chart-2: oklch(0.65 0.14 150);
+  --chart-3: oklch(0.68 0.13 20);
+  --chart-4: oklch(0.6 0.16 355);
+  --chart-5: oklch(0.64 0.11 45);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.14 0.02 220);
+  --sidebar-foreground: oklch(0.88 0.01 220);
+  --sidebar-primary: oklch(0.58 0.16 220);
+  --sidebar-primary-foreground: oklch(0.12 0.018 220);
+  --sidebar-accent: oklch(0.48 0.055 20);
+  --sidebar-accent-foreground: oklch(0.95 0.008 20);
+  --sidebar-border: oklch(0.25 0.025 220);
+  --sidebar-ring: oklch(0.62 0.16 220);
+}
+
+@theme inline {
+  /* Shadcn Core Mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Charts Mapping */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar Mapping */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Typography */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans min-h-screen;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  code, pre {
+    @apply font-mono;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40;
+  }
+}
+
+/* ─── REMAX Agro Brand Extensions ──────────────────────────────────────── */
+
+:root {
+  --dark-blue: #000e35;
+  --bridge-blue: #0c2749;
+  --bridge-red: #aa1120;
+  --dark-red: #660000;
+  --off-white: #f8f7f4;
+}
+
+@theme inline {
+  --color-dark-blue: var(--dark-blue);
+  --color-bridge-blue: var(--bridge-blue);
+  --color-bridge-red: var(--bridge-red);
+  --color-dark-red: var(--dark-red);
+  --color-off-white: var(--off-white);
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    to right,
+    rgba(0,14,53,0.88) 0%,
+    rgba(0,14,53,0.60) 55%,
+    rgba(0,14,53,0.22) 100%
+  );
+}
+
+.section-divider {
+  width: 48px;
+  height: 3px;
+  background: #aa1120;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.card-premium {
+  transition: transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.25s ease;
+}
+.card-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px -12px rgba(0,14,53,0.18);
+}
+
+.border-accent-top { border-top: 3px solid #aa1120; }
+
+.navbar-scrolled {
+  backdrop-filter: blur(12px);
+  background-color: rgba(0,14,53,0.97) !important;
+}
+
+/* ─── Typography utilities ──────────────────────────────────────────────── */
+
+/* H1 títulos em fundo claro — azul escuro, Roboto Black */
+.section-title {
+  color: #000e35;
+  font-weight: 900;
+  font-family: Roboto, sans-serif;
+}
+
+/* Subtítulos em fundo claro — azul médio */
+.section-subtitle {
+  color: #0c2749;
+  font-weight: 700;
+}
+
+/* Textos corridos — cinza */
+.body-text {
+  color: #4a5568;
+}
+
+/* Caixas glass semi-transparentes */
+.glass-box {
+  background: rgba(74, 85, 104, 0.07);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(74, 85, 104, 0.15);
+  border-radius: 12px;
+}
