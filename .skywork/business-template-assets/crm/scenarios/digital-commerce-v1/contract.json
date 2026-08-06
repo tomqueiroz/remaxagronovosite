@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "templateId": "digital-commerce-v1",
+  "kind": "crm-scenario-reference",
+  "purpose": "Reference capabilities for mapping existing Website-owned digital-commerce implementations; never a storage schema or business-rule authority.",
+  "referenceEntities": ["products", "customers", "orders", "entitlements", "deliveries"],
+  "operatorCapabilities": {
+    "products": ["list", "create", "update", "publish", "unpublish", "archive"],
+    "customers": ["list", "create", "update", "archive"],
+    "orders": ["list", "read", "create", "mark_paid", "cancel"],
+    "entitlements": ["list", "grant", "revoke", "expire"],
+    "deliveries": ["list", "create", "deliver", "retry", "cancel"]
+  },
+  "invariantTopics": ["payment and entitlement consistency", "entitlement revocation and expiry", "delivery retry and cancellation", "publish contract and consumer-side visibility"],
+  "requiredScenarioChecks": ["entitlement-invariants", "delivery-invariants", "publish-chain-contract"],
+  "runtimeReference": {
+    "version": 1,
+    "assets": ["runtime-reference/publish-contract.md", "runtime-reference/slugify.ts", "runtime-reference/publish-chain.test.template.ts"],
+    "note": "Read publish-contract.md and copy/run the publish-chain assets only when the source registry declares the products publish transition (from states + to) and the bound product entity exposes both slug and cover-image publish surfaces. A slug or image field alone must not trigger the suite or cause publishing to be invented. SKU-level checks run only when the registry declares SKU support; a product-only source must not invent SKU records. Seed-token checks run only when the source has referenced tokens. The unpublish-republish loop runs only when the registry declares an unpublish transition back to a legal publish from-state. If an asset is missing, implement the same narrow in-process surface inline and report the degradation."
+  }
+}

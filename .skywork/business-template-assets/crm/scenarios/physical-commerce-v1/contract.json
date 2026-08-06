@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "templateId": "physical-commerce-v1",
+  "kind": "crm-scenario-reference",
+  "purpose": "Reference capabilities for mapping existing Website-owned physical-commerce implementations; never a storage schema or business-rule authority.",
+  "referenceEntities": ["products", "customers", "orders", "order_items", "inventory"],
+  "operatorCapabilities": {
+    "products": ["list", "read", "create", "update", "publish", "unpublish", "archive"],
+    "customers": ["list", "read", "create", "update", "archive"],
+    "orders": ["list", "read", "create", "update_status", "mark_paid", "mark_shipped", "mark_delivered", "cancel", "delete_draft"],
+    "inventory": ["list", "adjust", "reserve", "release"]
+  },
+  "optionalOperatorCapabilities": {
+    "skus": ["list", "read", "create", "update", "archive"]
+  },
+  "relationshipRequirements": [
+    {"entity": "orders", "targetEntity": "customers", "cardinality": "many_to_one", "required": true},
+    {"entity": "order_items", "targetEntity": "orders", "cardinality": "many_to_one", "required": true},
+    {"entity": "order_items", "targetEntity": "products", "cardinality": "many_to_one", "required": true}
+  ],
+  "operationSemantics": {
+    "products": "publish changes a draft product to active; unpublish changes an active product to draft; archive is not the implementation of unpublish.",
+    "orders": "Every created order must be linked to one customer. Delete is allowed only for an unsubmitted draft order; paid, fulfilled, cancelled, and otherwise progressed orders use their lifecycle transitions instead.",
+    "customers": "Archive customers instead of physically deleting identities that may be referenced by orders.",
+    "inventory": "Adjustments preserve non-negative availability. When SKU support is present, inventory is owned per SKU rather than by one shared product quantity."
+  },
+  "invariantTopics": ["order lifecycle", "payment and fulfillment consistency", "inventory availability", "inventory reservation and release"],
+  "requiredScenarioChecks": ["order-transition-invariants", "inventory-invariants"]
+}

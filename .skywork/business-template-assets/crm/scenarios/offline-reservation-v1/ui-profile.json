@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "moduleOrder": ["overview", "customers", "locations", "services", "time_slots", "reservations"],
+  "overviewStatusResource": "reservations",
+  "statusResourcePriority": ["reservations"],
+  "componentSlots": ["shell", "toolbar", "metrics", "trend", "status", "table", "pagination"]
+}

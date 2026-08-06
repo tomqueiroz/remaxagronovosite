@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 2,
+  "id": "crm-runtime-contract-v2",
+  "paths": {
+    "workspaceManifest": ".skywork/web-apps.json",
+    "sourceRegistry": "apps/server/crm/source-registry.json",
+    "sourceRegistrySchema": ".skywork/crm/templates/source-registry.schema.json",
+    "adapterPattern": "apps/server/crm/adapters/<websiteId>.ts"
+  },
+  "identity": {
+    "crmAppType": "crm",
+    "sourceAppType": "website",
+    "bindingSourceIdField": "websiteId",
+    "querySourceIdField": "sourceWebsiteId",
+    "querySourceNameField": "sourceName",
+    "supportStatuses": ["supported", "unsupported"]
+  },
+  "ownership": {
+    "sourceEntityOwner": "website",
+    "crmTablePrefix": "crm_"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "moduleOrder": ["overview", "products", "orders", "customers", "inventory"],
+  "overviewStatusResource": "orders",
+  "statusResourcePriority": ["orders"],
+  "componentSlots": ["shell", "toolbar", "metrics", "trend", "status", "table", "pagination"]
+}

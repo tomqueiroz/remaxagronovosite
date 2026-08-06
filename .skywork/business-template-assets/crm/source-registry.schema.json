@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skywork.ai/schemas/crm/source-registry-v2.json",
+  "title": "CRM server source registry",
+  "description": "The single server-only inventory of ordinary Website data sources and their executable CRM capabilities. CRM generation uses it as the allowlist for generated CRM UI actions and server operations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "sources"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+      "maxLength": 128
+    },
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_-]*$",
+      "maxLength": 128
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["websiteId", "name", "supportStatus", "entities"],
+      "properties": {
+        "websiteId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "supportStatus": { "enum": ["supported", "unsupported"] },
+        "entities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/entity" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "supportStatus": { "const": "supported" } } },
+          "then": { "properties": { "entities": { "minItems": 1 } } }
+        },
+        {
+          "if": { "properties": { "supportStatus": { "const": "unsupported" } } },
+          "then": { "properties": { "entities": { "maxItems": 0 } } }
+        }
+      ]
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targetEntity", "cardinality", "required"],
+      "properties": {
+        "targetEntity": { "$ref": "#/$defs/identifier" },
+        "cardinality": { "enum": ["one_to_one", "many_to_one", "one_to_many", "many_to_many"] },
+        "required": { "type": "boolean" }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/state" }
+        },
+        "to": { "$ref": "#/$defs/state" }
+      }
+    },
+    "preconditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statusIn"],
+      "properties": {
+        "statusIn": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/state" }
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "description": "A CRM-executable capability backed by a typed adapter method. Generated CRM UI and APIs must only expose operations declared here.",
+      "additionalProperties": false,
+      "required": ["id", "kind", "adapterMethod"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "kind": {
+          "enum": ["list", "read", "create", "update", "archive", "delete", "adjust", "reserve", "release", "transition"]
+        },
+        "adapterMethod": { "$ref": "#/$defs/identifier" },
+        "requiredRelations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "transition": { "$ref": "#/$defs/transition" },
+        "preconditions": { "$ref": "#/$defs/preconditions" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "transition" } } },
+          "then": { "required": ["transition"] },
+          "else": { "not": { "required": ["transition"] } }
+        }
+      ]
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity", "tableName", "schemaPath", "exportName", "primaryKey", "relationships", "operations"],
+      "properties": {
+        "entity": { "$ref": "#/$defs/identifier" },
+        "tableName": { "$ref": "#/$defs/identifier" },
+        "schemaPath": {
+          "type": "string",
+          "pattern": "^apps/server/db/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*$",
+          "maxLength": 256
+        },
+        "exportName": { "$ref": "#/$defs/identifier" },
+        "primaryKey": { "$ref": "#/$defs/identifier" },
+        "relationships": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/relationship" }
+        },
+        "operations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/operation" }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schemaVersion": 2,
+      "sources": [
+        {
+          "websiteId": "019f1234-5678-7abc-8def-0123456789ab",
+          "name": "US Store",
+          "supportStatus": "supported",
+          "entities": [
+            {
+              "entity": "customers",
+              "tableName": "customers",
+              "schemaPath": "apps/server/db/schema.ts",
+              "exportName": "customers",
+              "primaryKey": "id",
+              "relationships": [],
+              "operations": [
+                { "id": "list", "kind": "list", "adapterMethod": "listCustomers" },
+                { "id": "create", "kind": "create", "adapterMethod": "createCustomer" }
+              ]
+            },
+            {
+              "entity": "orders",
+              "tableName": "orders",
+              "schemaPath": "apps/server/db/schema.ts",
+              "exportName": "orders",
+              "primaryKey": "id",
+              "relationships": [
+                { "targetEntity": "customers", "cardinality": "many_to_one", "required": true }
+              ],
+              "operations": [
+                { "id": "list", "kind": "list", "adapterMethod": "listOrders" },
+                { "id": "create", "kind": "create", "adapterMethod": "createOrder", "requiredRelations": ["customers"] },
+                {
+                  "id": "confirm",
+                  "kind": "transition",
+                  "adapterMethod": "confirmOrder",
+                  "transition": { "from": ["pending"], "to": "confirmed" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "websiteId": "019f1234-5678-7abc-8def-0123456789ac",
+          "name": "Legacy Site",
+          "supportStatus": "unsupported",
+          "entities": []
+        }
+      ]
+    }
+  ]
+}
