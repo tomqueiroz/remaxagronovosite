@@ -88,7 +88,7 @@ export const SERVICES = [
       'Avaliação técnica completa da propriedade',
       'Elaboração de material descritivo profissional',
       'Marketing direcionado nacional e internacional',
-      'Negociação especializada por corretores certificados',
+      'Negociação conduzida por especialistas',
       'Due diligence e suporte jurídico',
     ],
     image: ASSETS.combineHarvest,
@@ -97,7 +97,7 @@ export const SERVICES = [
     id: 'compra',
     title: 'Assessoria de Compra',
     subtitle: 'Invista com segurança e inteligência',
-    description: 'Identificamos as melhores oportunidades do mercado agroimobiliário e conduzimos o processo de aquisição com análise vocacional completa, due diligence especializada e estruturação da negociação.',
+    description: 'Identificamos as melhores oportunidades do mercado agroimobiliário de acordo com sua necessidade e conduzimos o processo de aquisição com análise vocacional completa, due diligence especializada e estruturação da negociação.',
     bullets: [
       'Prospecção estratégica de propriedades',
       'Análise vocacional completa',
@@ -204,5 +204,4 @@ export const NAV_LINKS: NavLink[] = [
   },
   { label: 'Nossa Equipe', to: '/corretores' },
   { label: 'Newsletter',   to: '/newsletter' },
-  { label: 'Contato',      to: '/contato' },
 ]

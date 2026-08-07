@@ -25,7 +25,7 @@ function ContatoHero() {
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
             Vamos conversar<br />
-            <span className="text-bridge-red">sobre seu negócio</span>
+            <span className="text-bridge-red">sobre seu negócio.</span>
           </h1>
           <p className="text-white/75 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
             Nossa equipe de especialistas está pronta para atender você em qualquer etapa da sua transação imobiliária rural — do primeiro contato ao fechamento.

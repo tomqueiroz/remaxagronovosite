@@ -76,7 +76,7 @@ function AboutHero() {
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
             A referência em<br />
-            <span className="text-bridge-red">imóveis rurais</span> no Brasil
+            <span className="text-bridge-red">imóveis rurais</span> no Brasil.
           </h1>
           <p className="text-white/75 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
             Unimos a maior rede imobiliária do mundo à maior inteligência do agronegócio brasileiro. Cada hectare tem uma história — e sabemos como revelar seu potencial.
@@ -232,7 +232,7 @@ function CeoSection() {
           <span className="section-divider" />
           <h2 className="text-4xl font-black text-dark-blue mb-6">Liderança</h2>
           <p className="text-gray-600 leading-relaxed mb-5 text-lg">
-            Sob a liderança do <strong className="text-dark-blue">Gabriel Pesciallo</strong>, CEO da REMAX Agro, a empresa constrói sua presença em todos os principais mercados agroimobiliários do Brasil, com foco em transações de alto padrão, fundos de investimento e produtores de grande escala.
+            Sob a liderança de <strong className="text-dark-blue">Gabriel Pesciallo</strong>, CEO da REMAX Agro, a empresa constrói sua presença em todos os principais mercados agroimobiliários do Brasil, atuando com imóveis rurais de todos os portes, desde pequenas propriedades até grandes fazendas, com forte atuação em transações de alto padrão, fundos de investimento e produtores de grande escala.
           </p>
           <p className="text-gray-600 leading-relaxed mb-8">
             Com visão estratégica e amplo relacionamento no setor, Gabriel lidera uma equipe de corretores certificados especializados nas principais culturas e regiões produtoras brasileiras.

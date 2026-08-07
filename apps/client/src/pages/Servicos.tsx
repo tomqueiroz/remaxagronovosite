@@ -20,10 +20,10 @@ function ServicesHero() {
         </span>
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
           Serviços exclusivos<br />
-          <span className="text-bridge-red">para o agroimobiliário</span>
+          <span className="text-bridge-red">para o agroimobiliário.</span>
         </h1>
         <p className="text-white/75 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
-          Do primeiro diagnóstico à conclusão do negócio — cada transação conduzida com rigor técnico, ética e resultados concretos.
+          Do primeiro diagnóstico à conclusão do negócio — cada transação é conduzida com rigor técnico, ética e resultados concretos.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
@@ -41,19 +41,6 @@ function ServicesHero() {
             Fale com um Especialista
           </a>
         </div>
-      </div>
-    </section>
-  )
-}
-
-/* @section: services-intro */
-function ServicesIntro() {
-  return (
-    <section className="py-16 bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-6">
-        <p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
-          Na REMAX Agro, entendemos que cada propriedade rural é única. Nossa missão é conduzir cada transação com rigor técnico, ética e resultados concretos — do primeiro diagnóstico à conclusão do negócio.
-        </p>
       </div>
     </section>
   )
@@ -82,15 +69,15 @@ function ServicesDetail() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white rounded-lg overflow-hidden border border-gray-100 card-premium scroll-mt-24"
+            className="w-full bg-white rounded-lg overflow-hidden border border-gray-100 card-premium scroll-mt-24"
           >
             {/* Header row */}
             <div
-              className="grid grid-cols-1 lg:grid-cols-5 cursor-pointer"
+              className="grid grid-cols-1 lg:grid-cols-5 lg:min-h-80 cursor-pointer"
               onClick={() => setActiveId(activeId === s.id ? null : s.id)}
             >
               {/* Image */}
-              <div className="lg:col-span-2 h-52 lg:h-auto overflow-hidden">
+              <div className="lg:col-span-2 h-52 lg:h-80 overflow-hidden">
                 <img
                   src={s.image}
                   alt={s.title}
@@ -181,7 +168,6 @@ export default function Servicos() {
   return (
     <>
       <ServicesHero />
-      <ServicesIntro />
       <ServicesDetail />
       <ServicesCTA />
     </>

@@ -109,14 +109,22 @@ function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-[70px]">
-        {/* Logo branco 100% — 200px — NÃO ALTERAR SEM AUTORIZAÇÃO */}
-        <Link to="/" className="flex-shrink-0">
+        {/* @section: header-brand-lockup */}
+        <Link to="/" className="flex-shrink-0 flex items-center gap-3" aria-label="REMAX Agro powered by DATAGRO">
           <img
             src={ASSETS.logoBranco}
             alt="REMAX Agro"
-            className="h-10 w-auto"
-            style={{ width: '200px', objectFit: 'contain' }}
+            className="h-11 sm:h-12 w-[155px] sm:w-[210px] object-contain"
           />
+          <span className="h-8 w-px bg-white/25 hidden sm:block" aria-hidden="true" />
+          <span className="hidden sm:flex flex-col items-start gap-1 leading-none">
+            <span className="text-[7px] font-semibold uppercase tracking-[0.16em] text-white/55">Powered by</span>
+            <img
+              src={ASSETS.datagroNegativo}
+              alt="DATAGRO"
+              className="h-[18px] w-auto object-contain"
+            />
+          </span>
         </Link>
 
         {/* Desktop nav — sem ícones sociais */}

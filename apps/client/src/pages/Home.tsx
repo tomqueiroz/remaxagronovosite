@@ -72,7 +72,7 @@ function Hero() {
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
             Todo agronegócio é,{' '}
-            <span className="text-white/80">antes de mais nada,</span>{' '}
+            <span className="text-white">antes de mais nada,</span>{' '}
             <span className="text-bridge-red">um negócio imobiliário.</span>
           </h1>
           <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10 max-w-xl">
