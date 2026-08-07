@@ -3,6 +3,7 @@ import { Award, MapPin, CheckCircle, BookOpen, Users, Star, Phone } from 'lucide
 import { FaWhatsapp } from 'react-icons/fa'
 import { ASSETS, SOCIAL_LINKS } from '@/data'
 import LeadForm from '@/components/LeadForm'
+import CorretoresLocator from '@/components/CorretoresLocator'
 
 const DIFERENCIAIS_CORRETOR = [
   {
@@ -322,14 +323,8 @@ function TeamLead() {
             </div>
           </motion.div>
         </div>
-        <div className="mt-16 rounded-2xl overflow-hidden bg-off-white border border-gray-100 p-8 text-center">
-          <MapPin size={36} className="text-bridge-red mx-auto mb-4" />
-          <h3 className="text-xl font-black text-dark-blue mb-3">Encontre o especialista mais próximo</h3>
-          <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">Temos corretores certificados em todas as regiões produtoras do Brasil. Fale conosco e identifique o especialista ideal para a sua região e tipo de negócio.</p>
-          <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 bg-bridge-red text-white font-bold text-sm uppercase tracking-widest rounded hover:bg-red-700 transition-colors">
-            <FaWhatsapp size={16} /> Localizar Especialista na Minha Região
-          </a>
-        </div>
+        {/* @section: corretores-interactive-locator */}
+        <CorretoresLocator />
       </div>
     </section>
   )

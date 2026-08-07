@@ -44,6 +44,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.55.0
         version: 2.110.7
+      '@svg-country-maps/brazil':
+        specifier: 1.0.3
+        version: 1.0.3
       '@tanstack/react-query':
         specifier: ^5.56.2
         version: 5.101.0(react@19.2.7)
@@ -1966,6 +1969,9 @@ packages:
   '@supabase/supabase-js@2.110.7':
     resolution: {integrity: sha512-AnfO3A230Shy6RMO7cya3Wl1OcXnABJrzH8vP+fY7/RFjhzcchB7DjKkkTIAntlwekD+GkSFzEvt2tC+D4Fp8w==}
     engines: {node: '>=22.0.0'}
+
+  '@svg-country-maps/brazil@1.0.3':
+    resolution: {integrity: sha512-t0/0oKt5qubsZ4W0kWYcSAzczxgHXga5rxsr8FdqZejM555F0EeZ2o6XgyoL6OAQGCP+4WGN2ZqZ5C1EmM3DEg==}
 
   '@swc/core-darwin-arm64@1.15.43':
     resolution: {integrity: sha512-v1aVuvXdo/BHxJzco9V2xpHrvwWmhfS8t6gziY5wJxd+Z2h8AeJRnAwPD8itCDaGXVBwJ/CaKfxEzTkG0Va0OA==}
@@ -5569,6 +5575,8 @@ snapshots:
       '@supabase/postgrest-js': 2.110.7
       '@supabase/realtime-js': 2.110.7
       '@supabase/storage-js': 2.110.7
+
+  '@svg-country-maps/brazil@1.0.3': {}
 
   '@swc/core-darwin-arm64@1.15.43':
     optional: true
