@@ -21,7 +21,7 @@ function ContatoHero() {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <span className="inline-block text-white text-xs font-bold uppercase tracking-widest mb-6 border-b-2 border-bridge-red pb-1">
-            Contato
+            Entre em Contato
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
             Vamos conversar<br />
@@ -59,7 +59,7 @@ function ContatoMain() {
       icon: Phone,
       label: 'Central de Atendimento',
       value: '+55 (11) 91505-1212',
-      sub: 'Seg–Sex, 9h–18h — WhatsApp disponível',
+      sub: 'WhatsApp disponível',
       href: 'tel:+5511915051212',
     },
     {
@@ -225,23 +225,23 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Como funciona a venda de uma propriedade rural com a REMAX Agro?',
-    a: 'Nossa metodologia inclui: avaliação técnica completa, precificação estratégica com dados DATAGRO, marketing nacional e internacional, negociação por corretores certificados e suporte jurídico completo até o fechamento.',
+    a: 'Nossa metodologia inclui: precificação estratégica com dados de mercado, elaboração de material técnico completo, marketing nacional e internacional, negociação conduzida por especialistas e suporte jurídico completo até o fechamento.',
   },
   {
     q: 'Qual a diferença entre a REMAX Agro e outras imobiliárias rurais?',
-    a: 'A REMAX Agro combina uma rede global de mais de 9.000 agências em 120 países com inteligência de dados das principais cadeias agropecuárias e profissionais especializados em imóveis rurais.',
+    a: 'A REMAX Agro combina uma rede global de mais de 9.000 agências em 120 países com inteligência de dados das principais cadeias agropecuárias, contando com profissionais especializados em imóveis rurais em todo o território nacional.',
   },
   {
-    q: 'Quais tipos de propriedades rurais vocês trabalham?',
-    a: 'Atuamos com fazendas de soja, milho, cana-de-açúcar, algodão, pecuária (Nelore), eucalipto/florestal e imóveis rurais mistos. Também estruturamos operações especiais: M&A de ativos, arrendamentos, Farm Flipping e captação para fundos.',
+    q: 'Quais tipos de propriedades rurais a REMAX Agro trabalha?',
+    a: 'Atuamos com propriedades rurais de todos os perfis, desde imóveis menores até grandes fazendas, com foco nas principais cadeias produtivas do Brasil: soja, milho, cana-de-açúcar, algodão, pecuária, silvicultura e outras.',
   },
   {
     q: 'Em quais regiões do Brasil a REMAX Agro atende?',
-    a: 'Atendemos todo o Brasil, com foco nos principais polos agrícolas: Mato Grosso, Goiás, Mato Grosso do Sul, São Paulo, Minas Gerais, Bahia, Pará e Rio Grande do Sul. A rede REMAX está presente em 120 países.',
+    a: 'Atendemos todo o Brasil, com foco nos principais polos agrícolas e nas principais cadeias do agro.',
   },
   {
     q: 'Como é feita a avaliação de uma propriedade rural?',
-    a: 'Emitimos laudos técnicos com análise de solo, produtividade histórica, localização, infraestrutura, reserva legal, comparativos regionais e perspectivas de valorização — com metodologia reconhecida pelo mercado financeiro e fundos de investimento.',
+    a: 'Produzimos documentos técnicos completos, com informações sobre solo, clima, relevo, produtividade histórica, infraestrutura, análise de regularização documental e de áreas naturais, comparativos regionais e perspectivas de valorização – o necessário para tomar as melhores decisões.',
   },
   {
     q: 'O que é due diligence rural e por que é importante?',
@@ -249,7 +249,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'O que são operações estruturadas no agronegócio?',
-    a: 'São soluções para transações complexas: M&A de ativos agroindustriais, financiamentos alternativos, Buy to Lease, Built to Suit, Sale Lease Back, Farm Flipping e captação para fundos agroimobiliários. A REMAX Agro coordena essas operações do início ao fim.',
+    a: 'São soluções para transações complexas: M&A de ativos agroindustriais, financiamentos alternativos, Buy to Lease, Built to Suit, Sale Lease Back, Farm Flipping e captação para fundos de investimento. A REMAX Agro coordena essas operações do início ao fim.',
   },
   {
     q: 'Quanto tempo leva para vender uma fazenda?',
