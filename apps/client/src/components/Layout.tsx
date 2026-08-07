@@ -110,20 +110,29 @@ function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-[70px]">
         {/* @section: header-brand-lockup */}
-        <Link to="/" className="flex-shrink-0 flex items-center gap-3" aria-label="REMAX Agro powered by DATAGRO">
+        <Link to="/" className="flex-shrink-0 flex items-center" aria-label="REMAX Agro powered by DATAGRO">
           <img
             src={ASSETS.logoBranco}
             alt="REMAX Agro"
-            className="h-11 sm:h-12 w-[155px] sm:w-[210px] object-contain"
+            className="h-11 w-[155px] object-contain sm:hidden"
           />
-          <span className="h-8 w-px bg-white/25 hidden sm:block" aria-hidden="true" />
-          <span className="hidden sm:flex flex-col items-start gap-1 leading-none">
-            <span className="text-[7px] font-semibold uppercase tracking-[0.16em] text-white/55">Powered by</span>
+          <span className="relative hidden h-9 w-[76px] flex-shrink-0 overflow-hidden sm:block">
             <img
-              src={ASSETS.datagroNegativo}
-              alt="DATAGRO"
-              className="h-[18px] w-auto object-contain"
+              src={ASSETS.logoBranco}
+              alt="REMAX Agro"
+              className="absolute -left-[6.22px] -top-[5.24px] h-12 w-[85.33px] max-w-none"
             />
+          </span>
+          <span className="mx-[29px] hidden h-8 w-px flex-shrink-0 bg-white/25 sm:block" aria-hidden="true" />
+          <span className="hidden w-[83px] flex-col items-start gap-1 leading-none sm:flex">
+            <span className="text-left text-[7px] font-semibold uppercase tracking-[0.16em] text-white/55">Powered by</span>
+            <span className="relative block h-3 w-[83px] overflow-hidden">
+              <img
+                src={ASSETS.datagroNegativo}
+                alt="DATAGRO"
+                className="absolute -left-[8.4px] -top-[4.35px] h-[22.5px] w-[101px] max-w-none"
+              />
+            </span>
           </span>
         </Link>
 
