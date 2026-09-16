@@ -412,15 +412,26 @@ function Footer() {
 }
 
 /* @section: leadster */
+const LEADSTER_SCRIPT_ID = 'leadster-neurolead-script'
+const LEADSTER_ACCOUNT_ID = 'lLZdETgxQb8iPXIbJi1rWtlrb'
+
 function LeadsterWidget(): null {
   useEffect(() => {
+    const leadsterWindow = window as typeof window & { neuroleadId?: string }
+    leadsterWindow.neuroleadId = LEADSTER_ACCOUNT_ID
+
+    if (document.getElementById(LEADSTER_SCRIPT_ID)) return
+
     const script = document.createElement('script')
+    script.id = LEADSTER_SCRIPT_ID
     script.src = 'https://cdn.leadster.com.br/neurolead/neurolead.min.js'
+    script.charset = 'UTF-8'
     script.defer = true
     script.setAttribute('data-account', 'remaxagro')
-    document.body.appendChild(script)
+    document.head.appendChild(script)
+
     return () => {
-      if (document.body.contains(script)) document.body.removeChild(script)
+      script.remove()
     }
   }, [])
   return null
