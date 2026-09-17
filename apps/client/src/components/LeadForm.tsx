@@ -2,11 +2,18 @@ import { useEffect, useId, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 
+interface ProfileOption {
+  value: string
+  label: string
+}
+
 interface LeadFormProps {
   source?: string
   title?: string
   subtitle?: string
   light?: boolean
+  profileLabel?: string
+  profileOptions?: ReadonlyArray<ProfileOption>
 }
 
 type LeadFormState = {
@@ -27,11 +34,21 @@ const EMPTY_FORM: LeadFormState = {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+const DEFAULT_PROFILE_OPTIONS: ReadonlyArray<ProfileOption> = [
+  { value: 'vendedor', label: 'Quero vender uma propriedade' },
+  { value: 'comprador', label: 'Quero comprar / investir' },
+  { value: 'avaliacao', label: 'Preciso de avaliação técnica' },
+  { value: 'investidor', label: 'Investidor institucional' },
+  { value: 'outro', label: 'Outro' },
+]
+
 export default function LeadForm({
   source = 'website',
   title = 'Fale com um Especialista',
   subtitle = 'Preencha o formulário e entraremos em contato em até 24 horas.',
   light = false,
+  profileLabel = 'Perfil',
+  profileOptions = DEFAULT_PROFILE_OPTIONS,
 }: LeadFormProps) {
   const formId = useId()
   const [loading, setLoading] = useState(false)
@@ -202,14 +219,12 @@ export default function LeadForm({
           />
         </div>
         <div>
-          <label htmlFor={profileId} className={labelClass}>Perfil</label>
+          <label htmlFor={profileId} className={labelClass}>{profileLabel}</label>
           <select id={profileId} name="profile" value={form.profile} onChange={handle} autoComplete="off" className={selectClass}>
             <option value="" disabled style={{ color: '#9ca3af' }}>Selecione seu perfil...</option>
-            <option value="vendedor">Quero vender uma propriedade</option>
-            <option value="comprador">Quero comprar / investir</option>
-            <option value="avaliacao">Preciso de avaliação técnica</option>
-            <option value="investidor">Investidor institucional</option>
-            <option value="outro">Outro</option>
+            {profileOptions.map(option => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
           </select>
         </div>
       </div>

@@ -331,6 +331,20 @@ function Footer() {
                 >
                   {link.label}
                 </Link>
+                {link.children && (
+                  <ul className="mt-2 space-y-2 border-l border-white/15 pl-3">
+                    {link.children.map(child => (
+                      <li key={child.to}>
+                        <Link
+                          to={child.to}
+                          className="text-xs text-white/45 transition-colors hover:text-white"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>

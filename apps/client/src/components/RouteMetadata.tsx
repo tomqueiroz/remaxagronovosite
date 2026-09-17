@@ -26,9 +26,9 @@ const ROUTE_METADATA: Record<string, { title: string; description: string; canon
     title: 'Fazendas | Propriedades Rurais | REMAX Agro',
     description: 'Conheça as propriedades rurais apresentadas pela REMAX Agro e acesse informações organizadas para uma primeira análise da oportunidade.',
   },
-  '/fazendas/santa-helena': {
-    title: 'Fazenda Santa Helena | Imóvel Rural | REMAX Agro',
-    description: 'Conheça a Fazenda Santa Helena, ativo rural apresentado pela REMAX Agro com escala produtiva, infraestrutura e atendimento consultivo.',
+  '/fazendas/itapirapua': {
+    title: 'Fazenda Itapirapuã | Imóvel Rural em Goiás | REMAX Agro',
+    description: 'Conheça a Fazenda Itapirapuã, propriedade rural de 230 hectares em Goiás apresentada pela REMAX Agro, com pastagem e infraestrutura documentada.',
   },
   '/newsletter': {
     title: 'Newsletter REMAX Agro | Inteligência do Agronegócio',

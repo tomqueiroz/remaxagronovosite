@@ -8,7 +8,7 @@ import Servicos from '@/pages/Servicos'
 import Corretores from '@/pages/Corretores'
 import Newsletter from '@/pages/Newsletter'
 import Fazendas from '@/pages/Fazendas'
-import FazendaSantaHelena from '@/pages/FazendaSantaHelena'
+import FazendaItapirapua from '@/pages/FazendaItapirapua'
 import Contato from '@/pages/Contato'
 import PoliticaPrivacidade from '@/pages/PoliticaPrivacidade'
 import TermosUso from '@/pages/TermosUso'
@@ -75,7 +75,9 @@ export default function App() {
             <Route path="/quero-comprar" element={<Navigate to="/servicos#compra" replace />} />
             <Route path="/corretores" element={<Corretores />} />
             <Route path="/fazendas" element={<Fazendas />} />
-            <Route path="/fazendas/santa-helena" element={<FazendaSantaHelena />} />
+            <Route path="/fazendas/itapirapua" element={<FazendaItapirapua />} />
+            {/* @section: legacy-farm-redirect */}
+            <Route path="/fazendas/santa-helena" element={<Navigate to="/fazendas/itapirapua" replace />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />

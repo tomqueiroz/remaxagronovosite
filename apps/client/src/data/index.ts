@@ -202,7 +202,13 @@ export const NAV_LINKS: NavLink[] = [
       { label: 'Operações Estruturadas',    to: '/servicos#operacoes' },
     ],
   },
+  {
+    label: 'Fazendas',
+    to: '/fazendas',
+    children: [
+      { label: 'Fazenda Itapirapuã', to: '/fazendas/itapirapua' },
+    ],
+  },
   { label: 'Nossa Equipe', to: '/corretores' },
-  { label: 'Fazendas',     to: '/fazendas' },
   { label: 'Newsletter',   to: '/newsletter' },
 ]

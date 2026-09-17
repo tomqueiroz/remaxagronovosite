@@ -6,7 +6,9 @@ import CorretoresLocator from '@/components/CorretoresLocator'
 import { BRAZIL_STATES, CORRETORES } from '@/data/corretores'
 import Servicos from '@/pages/Servicos'
 import Fazendas from '@/pages/Fazendas'
+import FazendaItapirapua from '@/pages/FazendaItapirapua'
 import NotFound from '@/pages/NotFound'
+import { NAV_LINKS } from '@/data'
 
 const insert = vi.fn(async () => ({ error: null }))
 
@@ -131,19 +133,62 @@ describe('regressões do site REMAX Agro', () => {
     expect(serviceButtons[0]?.getAttribute('aria-expanded')).toBe('true')
   })
 
-  it('exibe somente a propriedade confirmada e direciona para a Santa Helena', () => {
-    const { getByRole, getAllByRole } = render(
+  it('exibe somente a Fazenda Itapirapuã com os dados documentados', () => {
+    const { getByRole, getByText, queryByText } = render(
       <MemoryRouter>
         <Fazendas />
       </MemoryRouter>,
     )
 
-    expect(getByRole('heading', { level: 1 }).textContent).toContain('Fazendas selecionadas')
-    expect(getByRole('heading', { level: 3 }).textContent).toContain('Escala produtiva')
+    expect(getByRole('heading', { level: 1 }).textContent).toContain('Fazenda Itapirapuã')
+    expect(getByText('230 hectares')).not.toBeNull()
+    expect(getByText('170 hectares')).not.toBeNull()
+    expect(getByText('R$ 4.600.000,00')).not.toBeNull()
+    expect(queryByText(/Santa Helena/i)).toBeNull()
+  })
 
-    const propertyLinks = getAllByRole('link', { name: /Fazenda Santa Helena|Conhecer a propriedade/i }) as HTMLAnchorElement[]
-    expect(propertyLinks).toHaveLength(2)
-    for (const link of propertyLinks) expect(link.getAttribute('href')).toBe('/fazendas/santa-helena')
+  it('mantém o submenu Fazendas restrito à Fazenda Itapirapuã', () => {
+    const farmsLink = NAV_LINKS.find(link => link.label === 'Fazendas')
+
+    expect(farmsLink?.children).toEqual([
+      { label: 'Fazenda Itapirapuã', to: '/fazendas/itapirapua' },
+    ])
+  })
+
+  it('navega pelo carrossel com botões, miniaturas e teclado', () => {
+    const { getByRole, getByAltText } = render(
+      <MemoryRouter>
+        <FazendaItapirapua />
+      </MemoryRouter>,
+    )
+
+    expect(getByAltText('Vista aérea de curral, cercas e estruturas rurais')).not.toBeNull()
+    fireEvent.click(getByRole('button', { name: 'Mostrar próxima imagem' }))
+    expect(getByAltText('Vista aérea ampla de área rural com vegetação e áreas abertas')).not.toBeNull()
+
+    fireEvent.click(getByRole('button', { name: 'Mostrar pecuária' }))
+    expect(getByAltText('Manejo de gado em ambiente rural')).not.toBeNull()
+
+    const carousel = getByRole('group', { name: 'Imagens da Fazenda Itapirapuã' })
+    fireEvent.keyDown(carousel, { key: 'ArrowLeft' })
+    expect(getByAltText('Paisagem de vale em região rural')).not.toBeNull()
+  })
+
+  it('oferece exatamente os três perfis definidos para Itapirapuã sem enviar lead', () => {
+    const { getByLabelText } = render(
+      <MemoryRouter>
+        <FazendaItapirapua />
+      </MemoryRouter>,
+    )
+
+    const profile = getByLabelText('PERFIL') as HTMLSelectElement
+    expect(Array.from(profile.options).map(option => option.text)).toEqual([
+      'Selecione seu perfil...',
+      'Eu sou fazendeiro interessado',
+      'Eu sou corretor',
+      'Eu sou investidor no agro',
+    ])
+    expect(insert).not.toHaveBeenCalled()
   })
 
   it('oferece retorno para a Home na página não encontrada', () => {
