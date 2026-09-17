@@ -221,9 +221,11 @@ export default function LeadForm({
         <div>
           <label htmlFor={profileId} className={labelClass}>{profileLabel}</label>
           <select id={profileId} name="profile" value={form.profile} onChange={handle} autoComplete="off" className={selectClass}>
-            <option value="" disabled style={{ color: '#9ca3af' }}>Selecione seu perfil...</option>
+            <option value="" disabled style={{ color: '#6b7280', backgroundColor: '#ffffff' }}>Selecione seu perfil...</option>
             {profileOptions.map(option => (
-              <option key={option.value} value={option.value}>{option.label}</option>
+              <option key={option.value} value={option.value} style={{ color: '#1f2937', backgroundColor: '#ffffff' }}>
+                {option.label}
+              </option>
             ))}
           </select>
         </div>

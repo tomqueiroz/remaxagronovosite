@@ -50,6 +50,10 @@ describe('regressões do site REMAX Agro', () => {
     expect(phone.type).toBe('tel')
     expect(profile.id).not.toBe('')
     expect(message.id).not.toBe('')
+    expect(profile.options[0]?.style.color).toBe('#6b7280')
+    expect(profile.options[0]?.style.backgroundColor).toBe('#ffffff')
+    expect(profile.options[1]?.style.color).toBe('#1f2937')
+    expect(profile.options[1]?.style.backgroundColor).toBe('#ffffff')
 
     fireEvent.change(name, { target: { value: 'Pessoa Teste' } })
     fireEvent.change(email, { target: { value: 'email-invalido' } })
@@ -68,22 +72,25 @@ describe('regressões do site REMAX Agro', () => {
     expect(BRAZIL_STATES).toHaveLength(27)
   })
 
-  it('abre o painel somente após selecionar uma UF e mantém o contato na central', () => {
-    const { container, getByRole, getAllByRole, queryByRole } = render(<CorretoresLocator />)
+  it('abre o painel somente após selecionar uma UF e exibe contatos individuais como texto', () => {
+    const { container, getByLabelText, getByRole, getAllByRole, getByText, queryByRole } = render(<CorretoresLocator />)
 
     expect(queryByRole('heading', { name: 'São Paulo' })).toBeNull()
     expect(getAllByRole('button', { name: /corretor|nenhum corretor/i })).toHaveLength(27)
+    expect(getByRole('heading', { name: 'Encontre um corretor certificado perto de você' })).not.toBeNull()
+
+    const mobileSelector = getByLabelText('Selecione o estado') as HTMLSelectElement
+    expect(mobileSelector.options[0]?.style.color).toBe('#6b7280')
+    expect(mobileSelector.options[1]?.style.color).toBe('#1f2937')
+    expect(mobileSelector.options[1]?.style.backgroundColor).toBe('#ffffff')
 
     fireEvent.click(getByRole('button', { name: /^São Paulo:/i }))
     expect(getByRole('heading', { name: 'São Paulo' })).not.toBeNull()
+    expect(getByText('Angel Cáceres')).not.toBeNull()
+    expect(getByText('(16) 996239696')).not.toBeNull()
+    expect(getByText('angelcaceres@remax.com.br')).not.toBeNull()
 
-    const contactLinks = getAllByRole('link', { name: /WhatsApp da REMAX Agro/i }) as HTMLAnchorElement[]
-    expect(contactLinks.length).toBeGreaterThan(0)
-    for (const link of contactLinks) {
-      expect(link.href.startsWith('https://wa.me/5511915051212?text=')).toBe(true)
-      expect(decodeURIComponent(link.href)).toContain('Gostaria de entrar em contato com o corretor')
-    }
-
+    expect(container.querySelector('a[href^="https://wa.me/"]')).toBeNull()
     expect(container.querySelector('a[href^="tel:"]')).toBeNull()
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull()
     expect(container.querySelector('img[alt^="Imagem ilustrativa"]')).toBeNull()

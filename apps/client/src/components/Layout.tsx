@@ -251,13 +251,13 @@ function Footer() {
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Brand */}
-        <div className="lg:col-span-1">
-          {/* Logo branco 100% — 200px — NÃO ALTERAR SEM AUTORIZAÇÃO */}
+        <div className="flex flex-col items-start lg:col-span-1">
+          {/* @section: footer-brand-logo — logo branco oficial, 15% maior e alinhado à esquerda */}
           <img
             src={ASSETS.logoBranco}
             alt="REMAX Agro"
-            className="h-10 w-auto mb-5"
-            style={{ width: '200px', objectFit: 'contain' }}
+            className="mb-5 block h-auto self-start"
+            style={{ width: '230px', objectFit: 'contain' }}
           />
           <p className="text-white/60 text-sm leading-relaxed mb-6">
             Todo agronegócio é, antes de mais nada, um negócio imobiliário.

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from 'react'
 import brazilMap from '@svg-country-maps/brazil'
-import { MapPin, UserRound, X } from 'lucide-react'
-import { FaWhatsapp } from 'react-icons/fa'
+import { Mail, MapPin, Phone, UserRound, X } from 'lucide-react'
 import {
   BRAZIL_STATES,
   CORRETORES_BY_STATE,
@@ -10,7 +9,6 @@ import {
 } from '@/data/corretores'
 
 const PANEL_CLOSE_DELAY = 5_000
-const REMAX_AGRO_WHATSAPP = 'https://wa.me/5511915051212'
 
 const STATE_LABELS: Record<string, { x: number; y: number }> = {
   AC: { x: 47, y: 221 }, AL: { x: 574, y: 229 }, AP: { x: 342, y: 76 },
@@ -30,11 +28,6 @@ type CorretoresLocatorProps = {
 
 function getStateName(uf: string) {
   return BRAZIL_STATES.find((state) => state.uf === uf)?.name ?? uf
-}
-
-function getWhatsAppUrl(corretor: Corretor) {
-  const message = `Gostaria de entrar em contato com o corretor ${corretor.name}, de ${corretor.city}.`
-  return `${REMAX_AGRO_WHATSAPP}?text=${encodeURIComponent(message)}`
 }
 
 /* @section: corretor-card */
@@ -59,15 +52,14 @@ function CorretorCard({ corretor }: { corretor: Corretor }) {
           <MapPin size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
           <span>{corretor.city}</span>
         </p>
-        <a
-          href={getWhatsAppUrl(corretor)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex min-h-11 items-center justify-center gap-1.5 rounded bg-bridge-red px-3 text-[11px] font-bold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
-          aria-label={`Solicitar contato com ${corretor.name} pelo WhatsApp da REMAX Agro`}
-        >
-          <FaWhatsapp size={13} aria-hidden="true" /> WhatsApp
-        </a>
+        <p className="mt-3 flex items-start gap-1.5 break-words text-xs leading-snug text-gray-600">
+          <Phone size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
+          <span>{corretor.phone}</span>
+        </p>
+        <p className="mt-2 flex items-start gap-1.5 break-all text-xs leading-snug text-gray-600">
+          <Mail size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
+          <span>{corretor.email}</span>
+        </p>
       </div>
     </article>
   )
@@ -144,7 +136,7 @@ export default function CorretoresLocator({ certificationSeal }: CorretoresLocat
           </span>
           <div>
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-bridge-red">Corretores certificados</p>
-            <h3 className="mt-1 text-xl font-black leading-tight text-dark-blue sm:text-2xl">Encontre um especialista por estado</h3>
+            <h3 className="mt-1 text-xl font-black leading-tight text-dark-blue sm:text-2xl">Encontre um corretor certificado perto de você</h3>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-gray-500">
               Selecione uma UF no mapa para conhecer os especialistas REMAX Agro disponíveis na região.
             </p>
@@ -170,10 +162,14 @@ export default function CorretoresLocator({ certificationSeal }: CorretoresLocat
           onChange={(event) => selectState(event.target.value)}
           className="min-h-12 w-full rounded-lg border border-gray-300 bg-white px-4 text-base font-semibold text-gray-700 outline-none focus:border-bridge-red focus:ring-2 focus:ring-bridge-red/20"
         >
-          <option value="" disabled>Escolha uma UF</option>
+          <option value="" disabled style={{ color: '#6b7280', backgroundColor: '#ffffff' }}>Escolha uma UF</option>
           {BRAZIL_STATES.map((state) => {
             const count = CORRETORES_BY_STATE[state.uf]?.length ?? 0
-            return <option key={state.uf} value={state.uf}>{state.name} ({state.uf}) — {count || 'sem'} {count === 1 ? 'corretor' : 'corretores'}</option>
+            return (
+              <option key={state.uf} value={state.uf} style={{ color: '#1f2937', backgroundColor: '#ffffff' }}>
+                {state.name} ({state.uf}) — {count || 'sem'} {count === 1 ? 'corretor' : 'corretores'}
+              </option>
+            )
           })}
         </select>
       </div>
