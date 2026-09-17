@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import LeadForm from '@/components/LeadForm'
@@ -8,7 +8,11 @@ import Servicos from '@/pages/Servicos'
 import Fazendas from '@/pages/Fazendas'
 import FazendaItapirapua from '@/pages/FazendaItapirapua'
 import NotFound from '@/pages/NotFound'
-import { NAV_LINKS } from '@/data'
+import PoliticaPrivacidade from '@/pages/PoliticaPrivacidade'
+import TermosUso from '@/pages/TermosUso'
+import RouteMetadata from '@/components/RouteMetadata'
+import { ScrollToTop } from '@/App'
+import { ASSETS, NAV_LINKS } from '@/data'
 
 const insert = vi.fn(async () => ({ error: null }))
 
@@ -189,6 +193,81 @@ describe('regressões do site REMAX Agro', () => {
       'Eu sou investidor no agro',
     ])
     expect(insert).not.toHaveBeenCalled()
+  })
+
+  it('posiciona uma âncora de rota 70 px abaixo do header fixo', () => {
+    let currentScrollY = 0
+    let rafId = 0
+    const targetAbsoluteTop = 396
+    const target = document.createElement('section')
+    target.id = 'compra'
+    Object.defineProperty(target, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({
+        top: targetAbsoluteTop - currentScrollY,
+        bottom: targetAbsoluteTop - currentScrollY + 100,
+        left: 0,
+        right: 100,
+        width: 100,
+        height: 100,
+        x: 0,
+        y: targetAbsoluteTop - currentScrollY,
+        toJSON: () => ({}),
+      }),
+    })
+    document.body.appendChild(target)
+
+    const scrollToMock = vi.spyOn(window, 'scrollTo')
+    scrollToMock.mockImplementation(((options: ScrollToOptions) => {
+      currentScrollY = Number(options.top ?? 0)
+    }) as typeof window.scrollTo)
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      rafId += 1
+      callback(rafId)
+      return rafId
+    })
+    vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => undefined)
+
+    render(
+      <MemoryRouter initialEntries={['/servicos#compra']}>
+        <ScrollToTop />
+      </MemoryRouter>,
+    )
+
+    expect(target.getBoundingClientRect().top).toBe(70)
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 326, left: 0, behavior: 'auto' })
+    target.remove()
+  })
+
+  it('usa os assets locais estáveis nas imagens auditadas de Nossa Equipe', () => {
+    expect(ASSETS.womanCrops35179).toBe('/images/site/especialista-em-campo.jpg')
+    expect(ASSETS.hills151008).toBe('/images/site/excelencia-no-campo.jpg')
+  })
+
+  it('padroniza o e-mail institucional nas páginas jurídicas', () => {
+    const privacy = render(<PoliticaPrivacidade />)
+    expect(privacy.getAllByText('contatoagro@remax.com.br').length).toBeGreaterThan(0)
+    expect(privacy.container.textContent).not.toContain('contato@remaxagro.com.br')
+    privacy.unmount()
+
+    const terms = render(<TermosUso />)
+    expect(terms.getAllByText('contatoagro@remax.com.br').length).toBeGreaterThan(0)
+    expect(terms.container.textContent).not.toContain('contato@remaxagro.com.br')
+  })
+
+  it('mantém a thumbnail social horizontal nas mudanças de rota', async () => {
+    render(
+      <MemoryRouter initialEntries={['/corretores']}>
+        <RouteMetadata />
+      </MemoryRouter>,
+    )
+
+    await waitFor(() => {
+      expect(document.head.querySelector<HTMLMetaElement>('meta[property="og:image"]')?.content)
+        .toBe('https://agro.remax.com.br/images/site/remax-agro-social-share.jpg')
+      expect(document.head.querySelector<HTMLMetaElement>('meta[name="twitter:image"]')?.content)
+        .toBe('https://agro.remax.com.br/images/site/remax-agro-social-share.jpg')
+    })
   })
 
   it('oferece retorno para a Home na página não encontrada', () => {

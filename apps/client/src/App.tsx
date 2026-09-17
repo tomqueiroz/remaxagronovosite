@@ -16,7 +16,8 @@ import NotFound from '@/pages/NotFound'
 import RouteMetadata from '@/components/RouteMetadata'
 import { Toaster } from '@/components/ui/sonner'
 
-function ScrollToTop(): null {
+/* @section: route-scroll-positioning */
+export function ScrollToTop(): null {
   const { pathname, hash } = useLocation()
 
   useLayoutEffect(() => {
@@ -27,31 +28,59 @@ function ScrollToTop(): null {
 
     const targetId = decodeURIComponent(hash.slice(1))
     const headerOffset = 70
+    const root = document.documentElement
+    const previousScrollBehavior = root.style.scrollBehavior
     let frame = 0
     let attempts = 0
-    let previousTop: number | null = null
     let stableFrames = 0
+    let previousViewportTop: number | null = null
+    let finished = false
+
+    root.style.scrollBehavior = 'auto'
+
+    const finish = () => {
+      if (finished) return
+      finished = true
+      root.style.scrollBehavior = previousScrollBehavior
+    }
 
     const scrollWhenReady = () => {
       const target = document.getElementById(targetId)
 
       if (target) {
-        const top = Math.max(target.getBoundingClientRect().top + window.scrollY - headerOffset, 0)
-        window.scrollTo({ top, left: 0, behavior: 'auto' })
+        const viewportTop = target.getBoundingClientRect().top
+        const delta = viewportTop - headerOffset
 
-        if (previousTop !== null && Math.abs(previousTop - top) < 1) stableFrames += 1
-        else stableFrames = 0
+        if (Math.abs(delta) > 1) {
+          window.scrollTo({
+            top: Math.max(window.scrollY + delta, 0),
+            left: 0,
+            behavior: 'auto',
+          })
+        }
 
-        previousTop = top
-        if (stableFrames >= 3) return
+        const observedTop = target.getBoundingClientRect().top
+        const isCorrectlyPositioned = Math.abs(observedTop - headerOffset) <= 1
+        const isStable = previousViewportTop !== null && Math.abs(previousViewportTop - observedTop) <= 1
+        stableFrames = isCorrectlyPositioned && isStable ? stableFrames + 1 : 0
+        previousViewportTop = observedTop
+
+        if (stableFrames >= 3) {
+          finish()
+          return
+        }
       }
 
       attempts += 1
-      if (attempts < 60) frame = window.requestAnimationFrame(scrollWhenReady)
+      if (attempts < 180) frame = window.requestAnimationFrame(scrollWhenReady)
+      else finish()
     }
 
     frame = window.requestAnimationFrame(scrollWhenReady)
-    return () => window.cancelAnimationFrame(frame)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      finish()
+    }
   }, [pathname, hash])
 
   return null

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 /* @section: route-metadata */
 const SITE_URL = 'https://agro.remax.com.br'
-const SHARE_IMAGE = 'https://skyagent-artifacts.skywork.ai/router/agent/2026-06-24/prod_agent_ceac45f5-6d30-45e7-a920-9fcb97be3180/logo%20agro%20quadrado_7eed2aa722824289b703d58aebb78076.png'
+const SHARE_IMAGE = `${SITE_URL}/images/site/remax-agro-social-share.jpg`
 
 const ROUTE_METADATA: Record<string, { title: string; description: string; canonical?: string }> = {
   '/': {
@@ -84,6 +84,7 @@ export default function RouteMetadata() {
     upsertMeta('name', 'twitter:title', metadata.title)
     upsertMeta('name', 'twitter:description', metadata.description)
     upsertMeta('name', 'twitter:image', SHARE_IMAGE)
+    upsertMeta('name', 'twitter:image:alt', 'REMAX Agro — especialistas em imóveis rurais no Brasil')
     upsertMeta('property', 'og:title', metadata.title)
     upsertMeta('property', 'og:description', metadata.description)
     upsertMeta('property', 'og:url', canonical)

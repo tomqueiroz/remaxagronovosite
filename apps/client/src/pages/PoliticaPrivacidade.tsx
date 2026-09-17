@@ -141,7 +141,7 @@ export default function PoliticaPrivacidade() {
                 <li><strong>Revogação do consentimento</strong> a qualquer momento, sem prejuízo da licitude dos tratamentos realizados anteriormente.</li>
               </ul>
               <p>
-                Para exercer qualquer desses direitos, entre em contato conosco pelo e-mail <strong>contato@remaxagro.com.br</strong>. Responderemos dentro do prazo de 15 dias úteis.
+                Para exercer qualquer desses direitos, entre em contato conosco pelo e-mail <strong>contatoagro@remax.com.br</strong>. Responderemos dentro do prazo de 15 dias úteis.
               </p>
             </div>
           </section>
@@ -155,7 +155,7 @@ export default function PoliticaPrivacidade() {
               </p>
               <div className="glass-box p-6 mt-4">
                 <p><strong>REMAX Agro / MX Brasil Participações S.A.</strong></p>
-                <p>E-mail: <a href="mailto:contato@remaxagro.com.br" className="text-bridge-red hover:underline">contato@remaxagro.com.br</a></p>
+                <p>E-mail: <a href="mailto:contatoagro@remax.com.br" className="text-bridge-red hover:underline">contatoagro@remax.com.br</a></p>
                 <p>Site: <a href="https://agro.remax.com.br" target="_blank" rel="noopener noreferrer" className="text-bridge-red hover:underline">agro.remax.com.br</a></p>
                 <p>Localização: São Paulo, SP — Brasil</p>
               </div>

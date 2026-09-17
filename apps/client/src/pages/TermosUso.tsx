@@ -160,7 +160,7 @@ export default function TermosUso() {
               </p>
               <div className="glass-box p-6 mt-4">
                 <p><strong>REMAX Agro — MX Brasil Participações S.A.</strong></p>
-                <p>E-mail: <a href="mailto:contato@remaxagro.com.br" className="text-bridge-red hover:underline">contato@remaxagro.com.br</a></p>
+                <p>E-mail: <a href="mailto:contatoagro@remax.com.br" className="text-bridge-red hover:underline">contatoagro@remax.com.br</a></p>
                 <p>Site: <a href="https://agro.remax.com.br" target="_blank" rel="noopener noreferrer" className="text-bridge-red hover:underline">agro.remax.com.br</a></p>
                 <p>Localização: São Paulo, SP — Brasil</p>
               </div>
