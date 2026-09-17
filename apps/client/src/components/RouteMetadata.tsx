@@ -22,6 +22,10 @@ const ROUTE_METADATA: Record<string, { title: string; description: string; canon
     title: 'Nossa Equipe | Especialistas em Imóveis Rurais | REMAX Agro',
     description: 'Encontre especialistas certificados em transações imobiliárias rurais, com conhecimento regional e visão estratégica do agronegócio.',
   },
+  '/fazendas': {
+    title: 'Fazendas | Propriedades Rurais | REMAX Agro',
+    description: 'Conheça as propriedades rurais apresentadas pela REMAX Agro e acesse informações organizadas para uma primeira análise da oportunidade.',
+  },
   '/fazendas/santa-helena': {
     title: 'Fazenda Santa Helena | Imóvel Rural | REMAX Agro',
     description: 'Conheça a Fazenda Santa Helena, ativo rural apresentado pela REMAX Agro com escala produtiva, infraestrutura e atendimento consultivo.',

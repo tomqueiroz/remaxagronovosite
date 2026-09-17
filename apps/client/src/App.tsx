@@ -7,6 +7,7 @@ import QuemSomos from '@/pages/QuemSomos'
 import Servicos from '@/pages/Servicos'
 import Corretores from '@/pages/Corretores'
 import Newsletter from '@/pages/Newsletter'
+import Fazendas from '@/pages/Fazendas'
 import FazendaSantaHelena from '@/pages/FazendaSantaHelena'
 import Contato from '@/pages/Contato'
 import PoliticaPrivacidade from '@/pages/PoliticaPrivacidade'
@@ -73,6 +74,7 @@ export default function App() {
             <Route path="/quero-vender" element={<Navigate to="/servicos#venda" replace />} />
             <Route path="/quero-comprar" element={<Navigate to="/servicos#compra" replace />} />
             <Route path="/corretores" element={<Corretores />} />
+            <Route path="/fazendas" element={<Fazendas />} />
             <Route path="/fazendas/santa-helena" element={<FazendaSantaHelena />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/contato" element={<Contato />} />

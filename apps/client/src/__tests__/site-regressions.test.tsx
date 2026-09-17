@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import LeadForm from '@/components/LeadForm'
 import CorretoresLocator from '@/components/CorretoresLocator'
 import Servicos from '@/pages/Servicos'
+import Fazendas from '@/pages/Fazendas'
 import NotFound from '@/pages/NotFound'
 
 const insert = vi.fn(async () => ({ error: null }))
@@ -82,6 +83,21 @@ describe('regressões do site REMAX Agro', () => {
 
     fireEvent.click(serviceButtons[0] as HTMLButtonElement)
     expect(serviceButtons[0]?.getAttribute('aria-expanded')).toBe('true')
+  })
+
+  it('exibe somente a propriedade confirmada e direciona para a Santa Helena', () => {
+    const { getByRole, getAllByRole } = render(
+      <MemoryRouter>
+        <Fazendas />
+      </MemoryRouter>,
+    )
+
+    expect(getByRole('heading', { level: 1 }).textContent).toContain('Fazendas selecionadas')
+    expect(getByRole('heading', { level: 3 }).textContent).toContain('Escala produtiva')
+
+    const propertyLinks = getAllByRole('link', { name: /Fazenda Santa Helena|Conhecer a propriedade/i }) as HTMLAnchorElement[]
+    expect(propertyLinks).toHaveLength(2)
+    for (const link of propertyLinks) expect(link.getAttribute('href')).toBe('/fazendas/santa-helena')
   })
 
   it('oferece retorno para a Home na página não encontrada', () => {

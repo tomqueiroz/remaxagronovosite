@@ -203,6 +203,6 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { label: 'Nossa Equipe', to: '/corretores' },
-  { label: 'Fazendas',     to: '/fazendas/santa-helena' },
+  { label: 'Fazendas',     to: '/fazendas' },
   { label: 'Newsletter',   to: '/newsletter' },
 ]
