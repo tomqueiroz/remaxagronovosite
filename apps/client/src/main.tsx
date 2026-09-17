@@ -1,6 +1,7 @@
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import './accessibility.css'
 
 // Prerender (scripts/prerender.mjs) bakes the home page into #root at build time
 // so crawlers see real content. When that markup is present we hydrate it back
