@@ -96,7 +96,7 @@ function FarmIntroduction() {
             Fazenda Itapirapuã
           </h1>
           <p className="mt-7 max-w-3xl text-base leading-relaxed text-white/72 sm:text-lg">
-            Ativo rural com área consolidada, infraestrutura operacional instalada e vocação atual para pecuária em Itapirapuã, Goiás.
+            Ativo rural com área consolidada, infraestrutura operacional instalada e atividade atual de pastagem em Itapirapuã, Goiás.
           </p>
         </div>
 
