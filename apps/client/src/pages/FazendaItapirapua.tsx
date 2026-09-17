@@ -92,7 +92,7 @@ function FarmIntroduction() {
             <span>Propriedade rural à venda</span>
           </div>
           <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.24em] text-[#e39aa2]">Fazendas REMAX Agro</p>
-          <h1 className="mt-4 max-w-4xl font-serif text-5xl leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
+          <h1 className="mt-4 max-w-4xl text-5xl font-black leading-[1.05] text-white md:text-6xl lg:text-7xl">
             Fazenda Itapirapuã
           </h1>
           <p className="mt-7 max-w-3xl text-base leading-relaxed text-white/72 sm:text-lg">
@@ -102,7 +102,7 @@ function FarmIntroduction() {
 
         <div className="rounded-2xl border border-white/15 bg-white/[0.055] p-5 shadow-2xl sm:p-6">
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">Valor de venda</span>
-          <strong className="mt-3 block font-serif text-3xl text-white sm:text-4xl">R$ 4.600.000,00</strong>
+          <strong className="mt-3 block font-black text-3xl text-white sm:text-4xl">R$ 4.600.000,00</strong>
           <p className="mt-2 text-xs leading-relaxed text-white/55">Valor, disponibilidade e condições sujeitos à confirmação.</p>
           <a
             href="#contato"
@@ -219,7 +219,7 @@ function PropertyFacts() {
   return (
     <aside className="rounded-2xl border border-dark-blue/10 bg-white p-5 shadow-sm sm:p-7 lg:p-8">
       <div className="h-[3px] w-12 bg-bridge-red" aria-hidden="true" />
-      <h2 className="mt-5 font-serif text-3xl leading-tight text-dark-blue">Ficha da propriedade</h2>
+      <h2 className="mt-5 font-black text-3xl leading-tight text-dark-blue">Ficha da propriedade</h2>
       <table className="mt-7 w-full border-collapse text-left">
         <caption className="sr-only">Dados documentados da Fazenda Itapirapuã</caption>
         <tbody>
@@ -274,7 +274,7 @@ function FarmTerritory() {
         <div>
           <div className="h-[3px] w-12 bg-bridge-red" aria-hidden="true" />
           <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.2em] text-bridge-red">Território e contexto</p>
-          <h2 className="mt-3 font-serif text-4xl leading-[1.04] tracking-[-0.03em] text-dark-blue sm:text-5xl">
+          <h2 className="mt-3 text-4xl font-black leading-[1.05] text-dark-blue md:text-5xl">
             Itapirapuã e o contexto agropecuário regional.
           </h2>
           <div className="mt-7 space-y-5 text-base leading-relaxed text-[#5f697a]">
@@ -305,7 +305,7 @@ function FarmLeadCapture() {
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-16">
         <div className="lg:pt-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#e39aa2]">Atendimento REMAX Agro</p>
-          <h2 className="mt-4 max-w-xl font-serif text-4xl leading-[1.04] tracking-[-0.03em] sm:text-5xl">
+          <h2 className="mt-4 max-w-xl text-4xl font-black leading-[1.05] text-white md:text-5xl">
             Receba o dossiê completo da Fazenda Itapirapuã.
           </h2>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65">
