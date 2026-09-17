@@ -203,17 +203,22 @@ describe('regressões do site REMAX Agro', () => {
     target.id = 'compra'
     Object.defineProperty(target, 'getBoundingClientRect', {
       configurable: true,
-      value: () => ({
-        top: targetAbsoluteTop - currentScrollY,
-        bottom: targetAbsoluteTop - currentScrollY + 100,
-        left: 0,
-        right: 100,
-        width: 100,
-        height: 100,
-        x: 0,
-        y: targetAbsoluteTop - currentScrollY,
-        toJSON: () => ({}),
-      }),
+      value: () => {
+        const animationOffset = rafId < 10 ? 20 : 0
+        const top = targetAbsoluteTop + animationOffset - currentScrollY
+
+        return {
+          top,
+          bottom: top + 100,
+          left: 0,
+          right: 100,
+          width: 100,
+          height: 100,
+          x: 0,
+          y: top,
+          toJSON: () => ({}),
+        }
+      },
     })
     document.body.appendChild(target)
 

@@ -33,6 +33,7 @@ export function ScrollToTop(): null {
     let frame = 0
     let attempts = 0
     let stableFrames = 0
+    const minimumTrackingFrames = 60
     let previousViewportTop: number | null = null
     let finished = false
 
@@ -65,7 +66,7 @@ export function ScrollToTop(): null {
         stableFrames = isCorrectlyPositioned && isStable ? stableFrames + 1 : 0
         previousViewportTop = observedTop
 
-        if (stableFrames >= 3) {
+        if (stableFrames >= 3 && attempts >= minimumTrackingFrames) {
           finish()
           return
         }
