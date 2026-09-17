@@ -185,7 +185,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5577999712141",
     "email": "maisaregis@remax.com.br",
     "city": "Barreiras/BA",
-    "photo": null
+    "photo": "/images/corretores/web/maisa-de-souza-regis.webp"
   },
   {
     "id": "corretor-07",
@@ -205,7 +205,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5575988491450",
     "email": "evanilsonandrade@remax.com.br",
     "city": "Santo Antonio de Jesus/BA",
-    "photo": null
+    "photo": "/images/corretores/web/jose-evanilson-de-jesus-andrade.webp"
   },
   {
     "id": "corretor-09",
@@ -245,7 +245,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5561991467471",
     "email": "lgmedeiros@remax.com.br",
     "city": "Brasília/DF",
-    "photo": null
+    "photo": "/images/corretores/web/luiz-geraldo-de-medeiros.webp"
   },
   {
     "id": "corretor-13",
@@ -255,7 +255,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5561991126453",
     "email": "murilobotelho@remax.com.br",
     "city": "Brasília/DF",
-    "photo": null
+    "photo": "/images/corretores/web/murilo-botelho-ferreira.webp"
   },
   {
     "id": "corretor-14",
@@ -275,7 +275,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5564999832011",
     "email": "ivanpires@remax.com.br",
     "city": "Caldas Novas/GO",
-    "photo": null
+    "photo": "/images/corretores/web/ivan-garcia-pires.webp"
   },
   {
     "id": "corretor-16",
@@ -285,7 +285,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5564999082011",
     "email": "simoneaparecida@remax.com.br",
     "city": "Caldas Novas/GO",
-    "photo": null
+    "photo": "/images/corretores/web/simone-dos-santos-garcia.webp"
   },
   {
     "id": "corretor-17",
@@ -305,7 +305,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5531998331000",
     "email": "reinaldo.goncalves@remax.com.br",
     "city": "Belo Horizonte/MG",
-    "photo": null
+    "photo": "/images/corretores/web/reinaldo-gomes-goncalves.webp"
   },
   {
     "id": "corretor-19",
@@ -315,7 +315,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5531999530883",
     "email": "leliogarcia@remax.com.br",
     "city": "Belo Horizonte/MG",
-    "photo": null
+    "photo": "/images/corretores/web/lelio-gimenez-garcia.webp"
   },
   {
     "id": "corretor-20",
@@ -325,7 +325,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5531998238996",
     "email": "zulmiraribeiro@remax.com.br",
     "city": "Belo Horizonte/MG",
-    "photo": null
+    "photo": "/images/corretores/web/zulmira-ribeiro-diniz.webp"
   },
   {
     "id": "corretor-21",
@@ -345,7 +345,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5535999977102",
     "email": "marcosgoncalves@remax.com.br",
     "city": "Poços de Caldas/MG",
-    "photo": null
+    "photo": "/images/corretores/web/marcos-goncalves.webp"
   },
   {
     "id": "corretor-23",
@@ -425,7 +425,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5566999769707",
     "email": "felipeszechy@remax.com.br",
     "city": "Barra do Garças/MT",
-    "photo": null
+    "photo": "/images/corretores/web/luiz-felipe-porto-de-szechy.webp"
   },
   {
     "id": "corretor-31",
@@ -435,7 +435,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5566999882009",
     "email": "marcelodsilva@remax.com.br",
     "city": "Rondonópolis/MT",
-    "photo": null
+    "photo": "/images/corretores/web/marcelo-da-silva.webp"
   },
   {
     "id": "corretor-32",
@@ -465,7 +465,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5587988359000",
     "email": "sandrogarcia@remax.com.br",
     "city": "Petrolina/PE",
-    "photo": null
+    "photo": "/images/corretores/web/sandro-giovanni-garcia-leite.webp"
   },
   {
     "id": "corretor-35",
@@ -545,7 +545,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5547992583585",
     "email": "osmairdacruz@remax.com.br",
     "city": "Indaial/SC",
-    "photo": null
+    "photo": "/images/corretores/web/osmair-zequiel-da-cruz.webp"
   },
   {
     "id": "corretor-43",
@@ -585,7 +585,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5549998084228",
     "email": "matheusdemacedo@remax.com.br",
     "city": "Lages/SC",
-    "photo": null
+    "photo": "/images/corretores/web/matheus-de-souza-de-macedo.webp"
   },
   {
     "id": "corretor-47",
@@ -715,7 +715,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5519997584596",
     "email": "juliocesarmagalhaes@remax.com.br",
     "city": "Jaboticabal/SP",
-    "photo": null
+    "photo": "/images/corretores/web/julio-cesar-soares-de-magalhaes.webp"
   },
   {
     "id": "corretor-60",
@@ -745,7 +745,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5511993275353",
     "email": "ricardoschermack@remax.com.br",
     "city": "Registro/SP",
-    "photo": null
+    "photo": "/images/corretores/web/ricardo-marques-schermack.webp"
   },
   {
     "id": "corretor-63",
@@ -765,7 +765,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5535997558883",
     "email": "marcelviolante@remax.com.br",
     "city": "Ribeirão Preto/SP",
-    "photo": null
+    "photo": "/images/corretores/web/marcel-salgueiro-rodrigues-violante.webp"
   },
   {
     "id": "corretor-65",
@@ -775,7 +775,7 @@ export const CORRETORES: Corretor[] = [
     "phoneHref": "+5535999619731",
     "email": "walterguida@remax.com.br",
     "city": "Lindóia/SP",
-    "photo": null
+    "photo": "/images/corretores/web/walter-guida.webp"
   },
   {
     "id": "corretor-66",
@@ -807,4 +807,3 @@ export const CORRETORES_BY_STATE = CORRETORES.reduce<Record<string, Corretor[]>>
 }, {})
 
 export const COVERED_STATES = new Set(Object.keys(CORRETORES_BY_STATE))
-export const CORRETOR_PLACEHOLDER = '/images/corretores/web/corretor-placeholder.svg'

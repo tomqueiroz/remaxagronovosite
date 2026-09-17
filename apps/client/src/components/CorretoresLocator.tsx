@@ -1,16 +1,16 @@
-import { useMemo, useState, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from 'react'
 import brazilMap from '@svg-country-maps/brazil'
-import { MapPin, UserRound } from 'lucide-react'
+import { MapPin, UserRound, X } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import {
   BRAZIL_STATES,
   CORRETORES_BY_STATE,
-  CORRETOR_PLACEHOLDER,
   COVERED_STATES,
   type Corretor,
 } from '@/data/corretores'
 
-const DEFAULT_STATE = 'SP'
+const PANEL_CLOSE_DELAY = 5_000
+const REMAX_AGRO_WHATSAPP = 'https://wa.me/5511915051212'
 
 const STATE_LABELS: Record<string, { x: number; y: number }> = {
   AC: { x: 47, y: 221 }, AL: { x: 574, y: 229 }, AP: { x: 342, y: 76 },
@@ -24,32 +24,37 @@ const STATE_LABELS: Record<string, { x: number; y: number }> = {
   SP: { x: 432, y: 424 }, SE: { x: 559, y: 251 }, TO: { x: 442, y: 255 },
 }
 
+type CorretoresLocatorProps = {
+  certificationSeal?: string
+}
+
 function getStateName(uf: string) {
   return BRAZIL_STATES.find((state) => state.uf === uf)?.name ?? uf
 }
-
-const REMAX_AGRO_WHATSAPP = 'https://wa.me/5511915051212'
 
 function getWhatsAppUrl(corretor: Corretor) {
   const message = `Gostaria de entrar em contato com o corretor ${corretor.name}, de ${corretor.city}.`
   return `${REMAX_AGRO_WHATSAPP}?text=${encodeURIComponent(message)}`
 }
 
+/* @section: corretor-card */
 function CorretorCard({ corretor }: { corretor: Corretor }) {
-  const hasPhoto = Boolean(corretor.photo)
-
   return (
-    <article className="grid grid-cols-[88px_minmax(0,1fr)] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-      <div className="relative min-h-[132px] bg-gray-100">
-        <img
-          src={corretor.photo ?? CORRETOR_PLACEHOLDER}
-          alt={hasPhoto ? `Foto de ${corretor.name}` : `Imagem ilustrativa para ${corretor.name}`}
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="lazy"
-        />
-      </div>
+    <article className="grid grid-cols-[96px_minmax(0,1fr)] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      {corretor.photo ? (
+        <div className="relative aspect-[3/4] min-h-32 bg-gray-100">
+          <img
+            src={corretor.photo}
+            alt={`Foto de ${corretor.name}`}
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      ) : (
+        <div className="aspect-[3/4] min-h-32 border-r border-gray-100 bg-gradient-to-br from-gray-50 to-gray-100" aria-hidden="true" />
+      )}
       <div className="min-w-0 p-3.5">
-        <h4 className="text-sm font-black leading-tight text-dark-blue">{corretor.name}</h4>
+        <h5 className="text-sm font-black leading-tight text-dark-blue">{corretor.name}</h5>
         <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-snug text-gray-500">
           <MapPin size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
           <span>{corretor.city}</span>
@@ -68,21 +73,53 @@ function CorretorCard({ corretor }: { corretor: Corretor }) {
   )
 }
 
-export default function CorretoresLocator() {
-  const [selectedState, setSelectedState] = useState(DEFAULT_STATE)
-  const [previewState, setPreviewState] = useState<string | null>(null)
-  const activeState = previewState ?? selectedState
-  const activeCorretores = CORRETORES_BY_STATE[activeState] ?? []
-  const selectedName = getStateName(activeState)
+export default function CorretoresLocator({ certificationSeal }: CorretoresLocatorProps) {
+  const [selectedState, setSelectedState] = useState<string | null>(null)
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const panelRef = useRef<HTMLElement | null>(null)
+
+  const selectedCorretores = selectedState ? (CORRETORES_BY_STATE[selectedState] ?? []) : []
+  const selectedName = selectedState ? getStateName(selectedState) : ''
 
   const locations = useMemo(
     () => brazilMap.locations.map((location) => ({ ...location, uf: location.id.toUpperCase() })),
     [],
   )
 
+  const clearCloseTimer = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }, [])
+
+  const closePanel = useCallback(() => {
+    clearCloseTimer()
+    setIsPanelOpen(false)
+  }, [clearCloseTimer])
+
+  const scheduleClose = useCallback(() => {
+    clearCloseTimer()
+    timeoutRef.current = setTimeout(() => {
+      setIsPanelOpen(false)
+      timeoutRef.current = null
+    }, PANEL_CLOSE_DELAY)
+  }, [clearCloseTimer])
+
+  useEffect(() => {
+    if (!isPanelOpen) {
+      clearCloseTimer()
+      return
+    }
+
+    scheduleClose()
+    return clearCloseTimer
+  }, [clearCloseTimer, isPanelOpen, scheduleClose, selectedState])
+
   const selectState = (uf: string) => {
     setSelectedState(uf)
-    setPreviewState(null)
+    setIsPanelOpen(true)
   }
 
   const handleStateKeyDown = (event: KeyboardEvent<SVGPathElement>, uf: string) => {
@@ -92,29 +129,48 @@ export default function CorretoresLocator() {
     }
   }
 
-  return (
-    <div className="mt-16 overflow-hidden rounded-2xl border border-gray-200 bg-off-white shadow-sm">
-      {/* @section: corretores-locator-heading */}
-      <div className="border-b border-gray-200 bg-white px-6 py-8 text-center md:px-10">
-        <MapPin size={34} className="mx-auto mb-4 text-bridge-red" aria-hidden="true" />
-        <h3 className="text-2xl font-black text-dark-blue md:text-3xl">Encontre um especialista por estado</h3>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500 md:text-base">
-          Explore o mapa ou escolha uma unidade federativa para conhecer todos os corretores REMAX Agro disponíveis na região.
-        </p>
+  const handlePanelBlur = (event: FocusEvent<HTMLElement>) => {
+    const nextTarget = event.relatedTarget
+    if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) scheduleClose()
+  }
 
+  return (
+    <div className="min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      {/* @section: corretores-locator-heading */}
+      <div className="relative border-b border-gray-200 bg-white px-5 py-6 pr-24 sm:px-7 sm:pr-32">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-50 text-bridge-red">
+            <MapPin size={21} aria-hidden="true" />
+          </span>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-bridge-red">Corretores certificados</p>
+            <h3 className="mt-1 text-xl font-black leading-tight text-dark-blue sm:text-2xl">Encontre um especialista por estado</h3>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-gray-500">
+              Selecione uma UF no mapa para conhecer os especialistas REMAX Agro disponíveis na região.
+            </p>
+          </div>
+        </div>
+        {certificationSeal && (
+          <img
+            src={certificationSeal}
+            alt="Selo de corretor certificado REMAX Commercial Divisão Agro"
+            className="absolute right-3 top-3 h-20 w-20 rounded-full object-contain sm:right-5 sm:top-4 sm:h-24 sm:w-24"
+          />
+        )}
       </div>
 
       {/* @section: corretores-state-selector-mobile */}
-      <div className="border-b border-gray-200 bg-white p-5 lg:hidden">
+      <div className="border-b border-gray-200 bg-off-white p-4 lg:hidden">
         <label htmlFor="corretores-state-mobile" className="mb-2 block text-xs font-black uppercase tracking-widest text-dark-blue">
           Selecione o estado
         </label>
         <select
           id="corretores-state-mobile"
-          value={selectedState}
+          value={selectedState ?? ''}
           onChange={(event) => selectState(event.target.value)}
           className="min-h-12 w-full rounded-lg border border-gray-300 bg-white px-4 text-base font-semibold text-gray-700 outline-none focus:border-bridge-red focus:ring-2 focus:ring-bridge-red/20"
         >
+          <option value="" disabled>Escolha uma UF</option>
           {BRAZIL_STATES.map((state) => {
             const count = CORRETORES_BY_STATE[state.uf]?.length ?? 0
             return <option key={state.uf} value={state.uf}>{state.name} ({state.uf}) — {count || 'sem'} {count === 1 ? 'corretor' : 'corretores'}</option>
@@ -122,130 +178,119 @@ export default function CorretoresLocator() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,1.1fr)]">
-        {/* @section: interactive-brazil-map */}
-        <div className="flex min-h-[420px] items-center justify-center bg-gradient-to-br from-white to-gray-100 p-4 sm:p-8 lg:min-h-[660px] lg:border-r lg:border-gray-200">
-          <svg
-            viewBox={brazilMap.viewBox}
-            className="h-auto max-h-[590px] w-full max-w-[570px]"
-            role="group"
-            aria-label="Mapa interativo do Brasil. Use Tab para navegar entre os estados e Enter ou Espaço para selecionar."
+      {/* @section: interactive-brazil-map */}
+      <div className="relative isolate flex min-h-[430px] items-center justify-center overflow-hidden bg-gradient-to-br from-white to-gray-100 p-3 sm:min-h-[520px] sm:p-6 lg:min-h-[600px]">
+        <svg
+          viewBox={brazilMap.viewBox}
+          className="h-auto max-h-[560px] w-full max-w-[560px]"
+          role="group"
+          aria-label="Mapa interativo do Brasil. Use Tab para navegar entre os estados e Enter ou Espaço para selecionar."
+        >
+          {locations.map((location) => {
+            const uf = location.uf
+            const isCovered = COVERED_STATES.has(uf)
+            const isSelected = selectedState === uf
+            const label = STATE_LABELS[uf]
+            const count = CORRETORES_BY_STATE[uf]?.length ?? 0
+            return (
+              <g key={location.id}>
+                <path
+                  d={location.path}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${location.name}: ${count ? `${count} ${count === 1 ? 'corretor' : 'corretores'}` : 'nenhum corretor cadastrado'}`}
+                  aria-pressed={isSelected}
+                  aria-controls="corretores-state-panel"
+                  aria-expanded={isSelected && isPanelOpen}
+                  onClick={() => selectState(uf)}
+                  onKeyDown={(event) => handleStateKeyDown(event, uf)}
+                  className="cursor-pointer stroke-white stroke-[1.8] transition-all duration-150 focus:outline-none focus-visible:stroke-dark-blue focus-visible:stroke-[4]"
+                  fill={isSelected ? '#000e35' : isCovered ? '#aa1120' : '#dfe4e9'}
+                >
+                  <title>{location.name} — {count ? `${count} ${count === 1 ? 'corretor' : 'corretores'}` : 'sem corretor cadastrado'}</title>
+                </path>
+                {label && (
+                  <text
+                    x={label.x}
+                    y={label.y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="pointer-events-none select-none text-[11px] font-black"
+                    fill={isSelected || isCovered ? '#ffffff' : '#51606f'}
+                    aria-hidden="true"
+                  >
+                    {uf}
+                  </text>
+                )}
+              </g>
+            )
+          })}
+        </svg>
+
+        {/* @section: corretores-floating-panel */}
+        {selectedState && isPanelOpen && (
+          <section
+            ref={panelRef}
+            id="corretores-state-panel"
+            aria-labelledby="corretores-panel-title"
+            className="absolute inset-x-3 bottom-3 top-3 z-20 flex max-w-[390px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white/98 shadow-2xl backdrop-blur-sm sm:inset-x-auto sm:left-4 sm:w-[360px] lg:left-5"
+            tabIndex={-1}
+            onPointerEnter={clearCloseTimer}
+            onPointerLeave={scheduleClose}
+            onPointerDown={clearCloseTimer}
+            onPointerUp={scheduleClose}
+            onTouchStart={clearCloseTimer}
+            onTouchEnd={scheduleClose}
+            onWheel={scheduleClose}
+            onKeyDown={scheduleClose}
+            onFocusCapture={clearCloseTimer}
+            onBlurCapture={handlePanelBlur}
           >
-            {locations.map((location) => {
-              const uf = location.uf
-              const isCovered = COVERED_STATES.has(uf)
-              const isActive = activeState === uf
-              const label = STATE_LABELS[uf]
-              const count = CORRETORES_BY_STATE[uf]?.length ?? 0
-              return (
-                <g key={location.id}>
-                  <path
-                    d={location.path}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`${location.name}: ${count ? `${count} ${count === 1 ? 'corretor' : 'corretores'}` : 'nenhum corretor cadastrado'}`}
-                    aria-pressed={selectedState === uf}
-                    onMouseEnter={() => setPreviewState(uf)}
-                    onMouseLeave={() => setPreviewState(null)}
-                    onFocus={() => setPreviewState(uf)}
-                    onBlur={() => setPreviewState(null)}
-                    onClick={() => selectState(uf)}
-                    onKeyDown={(event) => handleStateKeyDown(event, uf)}
-                    className="cursor-pointer stroke-white stroke-[1.8] transition-all duration-150 focus:outline-none focus-visible:stroke-dark-blue focus-visible:stroke-[4]"
-                    fill={isActive ? '#000e35' : isCovered ? '#aa1120' : '#dfe4e9'}
-                  >
-                    <title>{location.name} — {count ? `${count} ${count === 1 ? 'corretor' : 'corretores'}` : 'sem corretor cadastrado'}</title>
-                  </path>
-                  {label && (
-                    <text
-                      x={label.x}
-                      y={label.y}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      className="pointer-events-none select-none text-[11px] font-black"
-                      fill={isActive || isCovered ? '#ffffff' : '#51606f'}
-                      aria-hidden="true"
-                    >
-                      {uf}
-                    </text>
-                  )}
-                </g>
-              )
-            })}
-          </svg>
-        </div>
-
-        {/* @section: corretores-state-results */}
-        <div className="min-w-0 bg-white">
-          <div className="hidden border-b border-gray-200 p-6 lg:block">
-            <label htmlFor="corretores-state-desktop" className="mb-2 block text-xs font-black uppercase tracking-widest text-dark-blue">
-              Estado ativo
-            </label>
-            <select
-              id="corretores-state-desktop"
-              value={selectedState}
-              onChange={(event) => selectState(event.target.value)}
-              className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-700 outline-none focus:border-bridge-red focus:ring-2 focus:ring-bridge-red/20"
-            >
-              {BRAZIL_STATES.map((state) => {
-                const count = CORRETORES_BY_STATE[state.uf]?.length ?? 0
-                return <option key={state.uf} value={state.uf}>{state.name} ({state.uf}) — {count || 'sem'} {count === 1 ? 'corretor' : 'corretores'}</option>
-              })}
-            </select>
-            <div className="mt-4 flex max-h-28 flex-wrap gap-2 overflow-y-auto pr-1" aria-label="Lista rápida de estados">
-              {BRAZIL_STATES.map((state) => {
-                const count = CORRETORES_BY_STATE[state.uf]?.length ?? 0
-                const active = activeState === state.uf
-                return (
-                  <button
-                    key={state.uf}
-                    type="button"
-                    onMouseEnter={() => setPreviewState(state.uf)}
-                    onMouseLeave={() => setPreviewState(null)}
-                    onFocus={() => setPreviewState(state.uf)}
-                    onBlur={() => setPreviewState(null)}
-                    onClick={() => selectState(state.uf)}
-                    aria-pressed={active}
-                    className={`min-h-9 rounded-md border px-2.5 text-xs font-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2 ${active ? 'border-dark-blue bg-dark-blue text-white' : count ? 'border-bridge-red/30 bg-red-50 text-bridge-red hover:bg-red-100' : 'border-gray-200 bg-gray-50 text-gray-500 hover:bg-gray-100'}`}
-                  >
-                    {state.uf}{count ? ` · ${count}` : ''}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="border-b border-gray-200 px-5 py-5 sm:px-6" aria-live="polite" aria-atomic="true">
-            <div className="flex flex-wrap items-end justify-between gap-2">
-              <div>
-                <p className="text-xs font-black uppercase tracking-widest text-bridge-red">{activeState}</p>
-                <h4 className="mt-1 text-2xl font-black text-dark-blue">{selectedName}</h4>
-              </div>
-              <p className="text-sm font-bold text-gray-500">
-                {activeCorretores.length} {activeCorretores.length === 1 ? 'especialista' : 'especialistas'}
-              </p>
-            </div>
-          </div>
-
-          <div className="max-h-[620px] overflow-y-auto p-5 sm:p-6" tabIndex={activeCorretores.length > 5 ? 0 : undefined} aria-label={`Corretores em ${selectedName}`}>
-            {activeCorretores.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                {activeCorretores.map((corretor) => <CorretorCard key={corretor.id} corretor={corretor} />)}
-              </div>
-            ) : (
-              <div className="flex min-h-72 flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 px-6 text-center">
-                <UserRound size={38} className="mb-4 text-gray-300" aria-hidden="true" />
-                <h5 className="text-lg font-black text-dark-blue">Ainda não há corretor cadastrado neste estado</h5>
-                <p className="mt-2 max-w-sm text-sm leading-relaxed text-gray-500">
-                  Consulte outro estado no mapa ou fale com a REMAX Agro para direcionarmos seu atendimento à equipe mais adequada.
+            <div className="flex items-start justify-between gap-4 border-b border-gray-200 px-5 py-4">
+              <div aria-live="polite" aria-atomic="true">
+                <p className="text-xs font-black uppercase tracking-widest text-bridge-red">{selectedState}</p>
+                <h4 id="corretores-panel-title" className="mt-1 text-xl font-black text-dark-blue">{selectedName}</h4>
+                <p className="mt-1 text-xs font-bold text-gray-500">
+                  {selectedCorretores.length} {selectedCorretores.length === 1 ? 'especialista certificado' : 'especialistas certificados'}
                 </p>
               </div>
-            )}
-          </div>
-        </div>
+              <button
+                type="button"
+                onClick={closePanel}
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:border-bridge-red hover:text-bridge-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
+                aria-label={`Fechar painel de corretores em ${selectedName}`}
+              >
+                <X size={20} aria-hidden="true" />
+              </button>
+            </div>
+
+            <div
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4"
+              aria-label={`Corretores em ${selectedName}`}
+              onScroll={scheduleClose}
+            >
+              {selectedCorretores.length > 0 ? (
+                <div className="grid grid-cols-1 gap-3">
+                  {selectedCorretores.map((corretor) => <CorretorCard key={corretor.id} corretor={corretor} />)}
+                </div>
+              ) : (
+                <div className="flex min-h-72 flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 px-6 text-center">
+                  <UserRound size={38} className="mb-4 text-gray-300" aria-hidden="true" />
+                  <h5 className="text-base font-black text-dark-blue">Ainda não há corretor cadastrado neste estado</h5>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                    Selecione outra UF ou fale com a REMAX Agro para direcionarmos seu atendimento.
+                  </p>
+                </div>
+              )}
+            </div>
+            <p className="border-t border-gray-100 px-5 py-2.5 text-[10px] leading-relaxed text-gray-400">
+              O painel fecha após 5 segundos sem interação. Mova o cursor, role, toque ou use o teclado para mantê-lo aberto.
+            </p>
+          </section>
+        )}
       </div>
 
-      <div className="border-t border-gray-200 bg-white px-6 py-3 text-center text-[11px] leading-relaxed text-gray-400">
+      <div className="border-t border-gray-200 bg-white px-5 py-3 text-center text-[10px] leading-relaxed text-gray-400">
         Geometria do mapa baseada em MapSVG, disponibilizada sob licença Creative Commons Attribution 4.0.
       </div>
     </div>

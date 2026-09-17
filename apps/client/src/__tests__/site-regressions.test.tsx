@@ -1,8 +1,9 @@
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import { act, cleanup, fireEvent, render } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import LeadForm from '@/components/LeadForm'
 import CorretoresLocator from '@/components/CorretoresLocator'
+import { BRAZIL_STATES, CORRETORES } from '@/data/corretores'
 import Servicos from '@/pages/Servicos'
 import Fazendas from '@/pages/Fazendas'
 import NotFound from '@/pages/NotFound'
@@ -25,6 +26,7 @@ vi.mock('sonner', () => ({
 afterEach(() => {
   cleanup()
   insert.mockClear()
+  vi.useRealTimers()
 })
 
 describe('regressões do site REMAX Agro', () => {
@@ -52,10 +54,24 @@ describe('regressões do site REMAX Agro', () => {
     expect(insert).not.toHaveBeenCalled()
   })
 
-  it('mantém todos os contatos dos corretores na central com mensagem contextual', () => {
-    const { container, getAllByRole } = render(<CorretoresLocator />)
-    const contactLinks = getAllByRole('link', { name: /WhatsApp da REMAX Agro/i }) as HTMLAnchorElement[]
+  it('preserva os 67 corretores, 37 fotos reais e 30 áreas sem foto', () => {
+    expect(CORRETORES).toHaveLength(67)
+    expect(CORRETORES.filter((corretor) => corretor.photo)).toHaveLength(37)
+    expect(CORRETORES.filter((corretor) => corretor.photo === null)).toHaveLength(30)
+    expect(CORRETORES.some((corretor) => corretor.photo?.includes('placeholder'))).toBe(false)
+    expect(BRAZIL_STATES).toHaveLength(27)
+  })
 
+  it('abre o painel somente após selecionar uma UF e mantém o contato na central', () => {
+    const { container, getByRole, getAllByRole, queryByRole } = render(<CorretoresLocator />)
+
+    expect(queryByRole('heading', { name: 'São Paulo' })).toBeNull()
+    expect(getAllByRole('button', { name: /corretor|nenhum corretor/i })).toHaveLength(27)
+
+    fireEvent.click(getByRole('button', { name: /^São Paulo:/i }))
+    expect(getByRole('heading', { name: 'São Paulo' })).not.toBeNull()
+
+    const contactLinks = getAllByRole('link', { name: /WhatsApp da REMAX Agro/i }) as HTMLAnchorElement[]
     expect(contactLinks.length).toBeGreaterThan(0)
     for (const link of contactLinks) {
       expect(link.href.startsWith('https://wa.me/5511915051212?text=')).toBe(true)
@@ -64,6 +80,36 @@ describe('regressões do site REMAX Agro', () => {
 
     expect(container.querySelector('a[href^="tel:"]')).toBeNull()
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull()
+    expect(container.querySelector('img[alt^="Imagem ilustrativa"]')).toBeNull()
+  })
+
+  it('permite abrir por Enter e Espaço e fechar manualmente', () => {
+    const { getByRole, queryByRole } = render(<CorretoresLocator />)
+    const bahia = getByRole('button', { name: /^Bahia:/i })
+
+    fireEvent.keyDown(bahia, { key: 'Enter' })
+    expect(getByRole('heading', { name: 'Bahia' })).not.toBeNull()
+    fireEvent.click(getByRole('button', { name: 'Fechar painel de corretores em Bahia' }))
+    expect(queryByRole('heading', { name: 'Bahia' })).toBeNull()
+
+    fireEvent.keyDown(bahia, { key: ' ' })
+    expect(getByRole('heading', { name: 'Bahia' })).not.toBeNull()
+  })
+
+  it('fecha após cinco segundos de inatividade e reinicia o prazo ao rolar o conteúdo', () => {
+    vi.useFakeTimers()
+    const { getByLabelText, getByRole, queryByRole } = render(<CorretoresLocator />)
+
+    fireEvent.click(getByRole('button', { name: /^São Paulo:/i }))
+    const scrollContainer = getByLabelText('Corretores em São Paulo')
+
+    act(() => vi.advanceTimersByTime(4_000))
+    fireEvent.scroll(scrollContainer)
+    act(() => vi.advanceTimersByTime(4_999))
+    expect(getByRole('heading', { name: 'São Paulo' })).not.toBeNull()
+
+    act(() => vi.advanceTimersByTime(1))
+    expect(queryByRole('heading', { name: 'São Paulo' })).toBeNull()
   })
 
   it('preserva títulos semânticos e controles acessíveis nos serviços', () => {

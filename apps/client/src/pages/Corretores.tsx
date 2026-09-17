@@ -291,27 +291,28 @@ function TeamLead() {
           <h2 className="text-4xl font-black text-dark-blue mb-3">Nosso time de especialistas</h2>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">Conheça quem lidera as operações mais sofisticadas do mercado agroimobiliário brasileiro.</p>
         </div>
-        <div className="max-w-md mx-auto">
-          <motion.article initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-off-white rounded-2xl overflow-hidden shadow-md">
-            <div className="h-80 overflow-hidden">
-              <img src={ASSETS.gabriel} alt="Gabriel Pesciallo — CEO REMAX Agro" className="w-full h-full object-cover" style={{ objectPosition: '50% 15%' }} />
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(260px,320px)_minmax(0,1fr)] lg:gap-10">
+          {/* @section: team-lead-card */}
+          <motion.article initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl bg-off-white shadow-md lg:sticky lg:top-24">
+            <div className="flex min-h-72 items-center justify-center overflow-hidden bg-gray-100 p-3 sm:min-h-80">
+              <img src={ASSETS.gabriel} alt="Gabriel Pesciallo — CEO REMAX Agro" className="h-auto max-h-[340px] w-full object-contain" />
             </div>
-            <div className="p-7 text-center">
-              <h3 className="font-black text-dark-blue text-xl">Gabriel Pesciallo</h3>
-              <p className="text-bridge-red text-xs font-bold uppercase tracking-widest mt-1">CEO &amp; CORRETOR ESPECIALISTA</p>
+            <div className="p-6 text-center">
+              <h3 className="text-xl font-black text-dark-blue">Gabriel Pesciallo</h3>
+              <p className="mt-1 text-xs font-bold uppercase tracking-widest text-bridge-red">CEO &amp; CORRETOR ESPECIALISTA</p>
               <a
                 href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent('Gostaria de entrar em contato com o corretor Gabriel Pesciallo.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded bg-bridge-red px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
+                className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded bg-bridge-red px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
               >
                 <FaWhatsapp size={14} aria-hidden="true" /> Falar com Gabriel
               </a>
             </div>
           </motion.article>
+          {/* @section: corretores-interactive-locator */}
+          <CorretoresLocator certificationSeal={ASSETS.seloColor} />
         </div>
-        {/* @section: corretores-interactive-locator */}
-        <CorretoresLocator />
       </div>
     </section>
   )
