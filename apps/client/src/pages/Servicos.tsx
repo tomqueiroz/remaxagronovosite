@@ -22,10 +22,7 @@ function ServicesHero() {
           Serviços exclusivos<br />
           <span className="text-bridge-red">para o agroimobiliário.</span>
         </h1>
-        <p className="text-white/75 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
-          Do primeiro diagnóstico à conclusão do negócio — cada transação é conduzida com rigor técnico, ética e resultados concretos.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="#servicos-lista"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-bridge-red text-white font-bold text-sm uppercase tracking-widest rounded hover:bg-red-700 transition-colors"
@@ -60,7 +57,15 @@ function ServicesDetail() {
 
   return (
     <section id="servicos-lista" className="py-24 bg-off-white scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <span className="section-divider mx-auto" />
+          <h2 className="text-4xl font-black text-dark-blue md:text-5xl">Soluções para cada decisão agroimobiliária</h2>
+          <p className="mt-4 text-lg leading-relaxed text-gray-500">
+            Conheça as frentes de atuação da REMAX Agro e abra os detalhes de cada serviço.
+          </p>
+        </div>
+        <div className="space-y-6">
         {SERVICES.map((s, i) => (
           <motion.div
             key={s.id}
@@ -71,42 +76,45 @@ function ServicesDetail() {
             transition={{ delay: i * 0.1 }}
             className="w-full bg-white rounded-lg overflow-hidden border border-gray-100 card-premium scroll-mt-24"
           >
-            {/* Header row */}
-            <div
-              className="grid grid-cols-1 lg:grid-cols-5 lg:min-h-80 cursor-pointer"
+            {/* @section: service-expander */}
+            <button
+              type="button"
+              className="grid w-full cursor-pointer grid-cols-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-bridge-red lg:min-h-80 lg:grid-cols-5"
               onClick={() => setActiveId(activeId === s.id ? null : s.id)}
+              aria-expanded={activeId === s.id}
+              aria-controls={`service-details-${s.id}`}
             >
-              {/* Image */}
-              <div className="lg:col-span-2 h-52 lg:h-80 overflow-hidden">
+              <span className="block h-52 overflow-hidden lg:col-span-2 lg:h-80">
                 <img
                   src={s.image}
-                  alt={s.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  alt=""
+                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-              </div>
-              {/* Content */}
-              <div className="lg:col-span-3 p-8 flex flex-col justify-center">
-                <span className="text-bridge-red text-xs font-bold uppercase tracking-widest mb-2">
+              </span>
+              <span className="flex flex-col justify-center p-8 lg:col-span-3">
+                <span className="mb-2 text-xs font-bold uppercase tracking-widest text-bridge-red">
                   0{i + 1}
                 </span>
-                <h3 className="text-2xl font-black text-dark-blue mb-2">{s.title}</h3>
-                <p className="text-gray-500 leading-relaxed mb-4">{s.subtitle}</p>
-                <div className="flex items-center gap-2 text-bridge-red font-bold text-sm uppercase tracking-widest">
+                <h3 className="mb-2 text-2xl font-black text-dark-blue">{s.title}</h3>
+                <span className="mb-4 leading-relaxed text-gray-500">{s.subtitle}</span>
+                <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-bridge-red">
                   {activeId === s.id ? 'Recolher' : 'Ver detalhes'}
                   <motion.span
                     animate={{ rotate: activeId === s.id ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
+                    aria-hidden="true"
                   >
                     <ChevronDown size={16} />
                   </motion.span>
-                </div>
-              </div>
-            </div>
+                </span>
+              </span>
+            </button>
 
             {/* Expanded details */}
             <AnimatePresence>
               {activeId === s.id && (
                 <motion.div
+                  id={`service-details-${s.id}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
@@ -140,6 +148,7 @@ function ServicesDetail() {
             </AnimatePresence>
           </motion.div>
         ))}
+        </div>
       </div>
     </section>
   )

@@ -1,6 +1,6 @@
 import { useMemo, useState, type KeyboardEvent } from 'react'
 import brazilMap from '@svg-country-maps/brazil'
-import { Mail, MapPin, Phone, UserRound } from 'lucide-react'
+import { MapPin, UserRound } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import {
   BRAZIL_STATES,
@@ -28,8 +28,11 @@ function getStateName(uf: string) {
   return BRAZIL_STATES.find((state) => state.uf === uf)?.name ?? uf
 }
 
-function getWhatsAppUrl(phoneHref: string) {
-  return `https://wa.me/${phoneHref.replace(/\D/g, '')}`
+const REMAX_AGRO_WHATSAPP = 'https://wa.me/5511915051212'
+
+function getWhatsAppUrl(corretor: Corretor) {
+  const message = `Gostaria de entrar em contato com o corretor ${corretor.name}, de ${corretor.city}.`
+  return `${REMAX_AGRO_WHATSAPP}?text=${encodeURIComponent(message)}`
 }
 
 function CorretorCard({ corretor }: { corretor: Corretor }) {
@@ -51,30 +54,12 @@ function CorretorCard({ corretor }: { corretor: Corretor }) {
           <MapPin size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
           <span>{corretor.city}</span>
         </p>
-        <div className="mt-3 space-y-1.5">
-          <a
-            href={`tel:${corretor.phoneHref}`}
-            className="flex min-h-8 items-center gap-2 text-xs font-semibold text-gray-600 transition-colors hover:text-bridge-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
-            aria-label={`Ligar para ${corretor.name}: ${corretor.phone}`}
-          >
-            <Phone size={13} aria-hidden="true" />
-            <span>{corretor.phone}</span>
-          </a>
-          <a
-            href={`mailto:${corretor.email}`}
-            className="flex min-h-8 min-w-0 items-center gap-2 text-xs font-semibold text-gray-600 transition-colors hover:text-bridge-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
-            aria-label={`Enviar e-mail para ${corretor.name}`}
-          >
-            <Mail size={13} className="shrink-0" aria-hidden="true" />
-            <span className="truncate">{corretor.email}</span>
-          </a>
-        </div>
         <a
-          href={getWhatsAppUrl(corretor.phoneHref)}
+          href={getWhatsAppUrl(corretor)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-flex min-h-9 items-center justify-center gap-1.5 rounded bg-bridge-red px-3 text-[11px] font-bold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
-          aria-label={`Conversar com ${corretor.name} pelo WhatsApp`}
+          className="mt-4 inline-flex min-h-11 items-center justify-center gap-1.5 rounded bg-bridge-red px-3 text-[11px] font-bold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
+          aria-label={`Solicitar contato com ${corretor.name} pelo WhatsApp da REMAX Agro`}
         >
           <FaWhatsapp size={13} aria-hidden="true" /> WhatsApp
         </a>
@@ -116,10 +101,7 @@ export default function CorretoresLocator() {
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500 md:text-base">
           Explore o mapa ou escolha uma unidade federativa para conhecer todos os corretores REMAX Agro disponíveis na região.
         </p>
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-gray-500">
-          <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-sm bg-bridge-red" />15 estados com especialistas</span>
-          <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-sm border border-gray-300 bg-gray-100" />12 estados sem cadastro atual</span>
-        </div>
+
       </div>
 
       {/* @section: corretores-state-selector-mobile */}

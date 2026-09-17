@@ -129,7 +129,7 @@ export const SERVICES = [
     bullets: [
       'Permuta e consolidação de ativos',
       'Arrendamentos e parcerias rurais',
-      'Captação para fundos agroimobiliários',
+      'Captação para fundos de investimento',
       'Operações com múltiplos ativos',
       'Assessoria a investidores institucionais',
     ],

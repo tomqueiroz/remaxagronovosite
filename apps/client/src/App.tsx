@@ -11,6 +11,8 @@ import FazendaSantaHelena from '@/pages/FazendaSantaHelena'
 import Contato from '@/pages/Contato'
 import PoliticaPrivacidade from '@/pages/PoliticaPrivacidade'
 import TermosUso from '@/pages/TermosUso'
+import NotFound from '@/pages/NotFound'
+import RouteMetadata from '@/components/RouteMetadata'
 import { Toaster } from '@/components/ui/sonner'
 
 function ScrollToTop(): null {
@@ -61,6 +63,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
+        <RouteMetadata />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -75,6 +78,7 @@ export default function App() {
             <Route path="/contato" element={<Contato />} />
             <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/termos-de-uso" element={<TermosUso />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
         <Toaster richColors position="top-right" />

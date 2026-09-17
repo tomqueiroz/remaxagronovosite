@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Award, MapPin, CheckCircle, BookOpen, Users, Star, Phone } from 'lucide-react'
+import { Award, MapPin, CheckCircle, BookOpen, Users, Star } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { ASSETS, SOCIAL_LINKS } from '@/data'
 import LeadForm from '@/components/LeadForm'
@@ -80,7 +80,7 @@ const SERVICOS_CORRETOR = [
       'Financiamentos alternativos',
       'Buy to Lease, Built to Suit e Sale Lease Back',
       'Farm Flipping (compra, desenvolvimento e venda)',
-      'Captação para fundos agroimobiliários',
+      'Captação para fundos de investimento',
     ],
   },
 ]
@@ -102,7 +102,7 @@ function CorretoresHero() {
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-24 text-center w-full">
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}>
           <span className="inline-block text-white text-xs font-bold uppercase tracking-widest mb-6 border-b-2 border-bridge-red pb-1">
-            Corretores Especializados no Agro
+            Nossa Equipe
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
             Além de corretores,<br /><span className="text-bridge-red">consultores estratégicos</span><br />do agronegócio.
@@ -292,36 +292,23 @@ function TeamLead() {
           <p className="text-gray-500 text-lg max-w-xl mx-auto">Conheça quem lidera as operações mais sofisticadas do mercado agroimobiliário brasileiro.</p>
         </div>
         <div className="max-w-md mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-off-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+          <motion.article initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-off-white rounded-2xl overflow-hidden shadow-md">
             <div className="h-80 overflow-hidden">
               <img src={ASSETS.gabriel} alt="Gabriel Pesciallo — CEO REMAX Agro" className="w-full h-full object-cover" style={{ objectPosition: '50% 15%' }} />
             </div>
-            <div className="p-7">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="font-black text-dark-blue text-xl">Gabriel Pesciallo</h3>
-                  <p className="text-bridge-red text-xs font-bold uppercase tracking-widest mt-1">CEO & Corretor Especialista</p>
-                </div>
-                <Award size={22} className="text-bridge-red flex-shrink-0" />
-              </div>
-              <div className="flex flex-wrap gap-2 mb-5">
-                {['Soja','Milho','Fazendas Premium'].map(tag => (
-                  <span key={tag} className="px-2.5 py-1 bg-white text-dark-blue text-xs font-semibold rounded border border-gray-200">{tag}</span>
-                ))}
-              </div>
-              <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-5">
-                <MapPin size={12} /><span>Centro-Oeste · Mato Grosso · Goiás</span>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-bridge-red text-white text-xs font-bold rounded hover:bg-red-700 transition-colors">
-                  <FaWhatsapp size={13} /> Falar com Gabriel
-                </a>
-                <a href="tel:+5511915051212" className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-dark-blue text-white text-xs font-bold rounded hover:bg-bridge-blue transition-colors">
-                  <Phone size={13} /> Ligar Agora
-                </a>
-              </div>
+            <div className="p-7 text-center">
+              <h3 className="font-black text-dark-blue text-xl">Gabriel Pesciallo</h3>
+              <p className="text-bridge-red text-xs font-bold uppercase tracking-widest mt-1">CEO &amp; CORRETOR ESPECIALISTA</p>
+              <a
+                href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent('Gostaria de entrar em contato com o corretor Gabriel Pesciallo.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded bg-bridge-red px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
+              >
+                <FaWhatsapp size={14} aria-hidden="true" /> Falar com Gabriel
+              </a>
             </div>
-          </motion.div>
+          </motion.article>
         </div>
         {/* @section: corretores-interactive-locator */}
         <CorretoresLocator />
@@ -347,12 +334,12 @@ export default function Corretores() {
   return (
     <>
       <CorretoresHero />
+      <TeamLead />
       <DiferenciaisCorretor />
       <Certificacao />
       <ServicosCorretor />
       <Metodologia />
       <Excelencia />
-      <TeamLead />
       <CorretoresLead />
     </>
   )
