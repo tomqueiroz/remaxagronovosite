@@ -7,13 +7,9 @@ import QuemSomos from '@/pages/QuemSomos'
 import Servicos from '@/pages/Servicos'
 import Corretores from '@/pages/Corretores'
 import Newsletter from '@/pages/Newsletter'
-import Fazendas from '@/pages/Fazendas'
-import FazendaSantaHelena from '@/pages/FazendaSantaHelena'
 import Contato from '@/pages/Contato'
 import PoliticaPrivacidade from '@/pages/PoliticaPrivacidade'
 import TermosUso from '@/pages/TermosUso'
-import NotFound from '@/pages/NotFound'
-import RouteMetadata from '@/components/RouteMetadata'
 import { Toaster } from '@/components/ui/sonner'
 
 function ScrollToTop(): null {
@@ -64,7 +60,6 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
-        <RouteMetadata />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -74,13 +69,10 @@ export default function App() {
             <Route path="/quero-vender" element={<Navigate to="/servicos#venda" replace />} />
             <Route path="/quero-comprar" element={<Navigate to="/servicos#compra" replace />} />
             <Route path="/corretores" element={<Corretores />} />
-            <Route path="/fazendas" element={<Fazendas />} />
-            <Route path="/fazendas/santa-helena" element={<FazendaSantaHelena />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/termos-de-uso" element={<TermosUso />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
         <Toaster richColors position="top-right" />

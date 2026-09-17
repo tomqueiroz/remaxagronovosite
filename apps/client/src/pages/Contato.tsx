@@ -253,7 +253,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Quanto tempo leva para vender uma fazenda?',
-    a: 'O prazo varia conforme o tipo, a região, o valor, a documentação e as condições de mercado. Nossa equipe estrutura a divulgação e a negociação da propriedade e acompanha cada etapa até o fechamento.',
+    a: 'O prazo varia conforme o tipo, região e valor da propriedade. Com nossa rede global de compradores qualificados e marketing especializado, conseguimos reduzir significativamente o tempo médio de venda em relação ao mercado tradicional.',
   },
   {
     q: 'Como entrar em contato com um especialista REMAX Agro?',
@@ -281,32 +281,26 @@ function FaqSection() {
               itemType="https://schema.org/Question"
             >
               <button
-                type="button"
-                className="w-full flex items-center justify-between px-6 py-5 text-left bg-off-white hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-bridge-red"
+                className="w-full flex items-center justify-between px-6 py-5 text-left bg-off-white hover:bg-gray-50 transition-colors"
                 onClick={() => setOpen(open === i ? null : i)}
                 aria-expanded={open === i}
-                aria-controls={`faq-answer-${i}`}
-                id={`faq-question-${i}`}
               >
                 <span className="font-bold text-dark-blue text-sm pr-4" itemProp="name">{item.q}</span>
                 <ChevronDown
                   size={18}
-                  aria-hidden="true"
                   className={`text-bridge-red flex-shrink-0 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`}
                 />
               </button>
-              <div
-                id={`faq-answer-${i}`}
-                role="region"
-                aria-labelledby={`faq-question-${i}`}
-                hidden={open !== i}
-                className="px-6 py-5 bg-white border-t border-gray-100"
-                itemScope
-                itemProp="acceptedAnswer"
-                itemType="https://schema.org/Answer"
-              >
-                <p className="text-gray-600 text-sm leading-relaxed" itemProp="text">{item.a}</p>
-              </div>
+              {open === i && (
+                <div
+                  className="px-6 py-5 bg-white border-t border-gray-100"
+                  itemScope
+                  itemProp="acceptedAnswer"
+                  itemType="https://schema.org/Answer"
+                >
+                  <p className="text-gray-600 text-sm leading-relaxed" itemProp="text">{item.a}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -15,14 +15,11 @@ function GoToTop() {
   if (!visible) return null
   return (
     <button
-      onClick={() => {
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
-      }}
-      className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-bridge-red text-white shadow-lg transition-all hover:-translate-y-1 hover:bg-dark-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-bridge-red text-white rounded-full flex items-center justify-center shadow-lg hover:bg-dark-red transition-all hover:-translate-y-1"
       aria-label="Voltar ao topo"
     >
-      <ChevronUp size={20} aria-hidden="true" />
+      <ChevronUp size={20} />
     </button>
   )
 }
@@ -164,9 +161,8 @@ function Navbar() {
 
           <Link
             to="/contato"
-            className="ml-3 inline-flex items-center gap-2 px-5 py-2 bg-bridge-red text-white text-sm font-bold rounded hover:bg-dark-red transition-colors duration-200"
+            className="ml-3 px-5 py-2 bg-bridge-red text-white text-sm font-bold rounded hover:bg-dark-red transition-colors duration-200"
           >
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/95 text-bridge-red" aria-hidden="true"><Phone size={12} /></span>
             Fale Conosco
           </Link>
         </nav>
@@ -175,9 +171,7 @@ function Navbar() {
         <button
           onClick={() => setOpen(!open)}
           className="lg:hidden text-white p-2"
-          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
+          aria-label="Menu"
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -185,15 +179,13 @@ function Navbar() {
 
       {/* Mobile drawer */}
       {open && (
-        <nav id="mobile-navigation" aria-label="Navegação principal mobile" className="lg:hidden bg-dark-blue border-t border-white/10 px-6 py-4 flex flex-col gap-1">
+        <div className="lg:hidden bg-dark-blue border-t border-white/10 px-6 py-4 flex flex-col gap-1">
           {NAV_LINKS.map(link =>
             link.children ? (
               <div key={link.to}>
                 <button
                   className="w-full flex items-center justify-between py-3 text-sm font-semibold border-b border-white/10 text-white/70"
                   onClick={() => setExpandedMobile(expandedMobile === link.label ? null : link.label)}
-                  aria-expanded={expandedMobile === link.label}
-                  aria-controls={`mobile-submenu-${link.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                 >
                   {link.label}
                   <ChevronDown
@@ -202,7 +194,7 @@ function Navbar() {
                   />
                 </button>
                 {expandedMobile === link.label && (
-                  <div id={`mobile-submenu-${link.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="pl-4 py-1 flex flex-col gap-1">
+                  <div className="pl-4 py-1 flex flex-col gap-1">
                     {link.children.map(child => (
                       <Link
                         key={child.to}
@@ -233,12 +225,11 @@ function Navbar() {
           {/* Social icons mobile — removidos do drawer conforme solicitado */}
           <Link
             to="/contato"
-            className="mt-3 inline-flex items-center justify-center gap-2 py-3 bg-bridge-red text-white text-sm font-bold rounded"
+            className="mt-3 text-center py-3 bg-bridge-red text-white text-sm font-bold rounded"
           >
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/95 text-bridge-red" aria-hidden="true"><Phone size={12} /></span>
             Fale Conosco
           </Link>
-        </nav>
+        </div>
       )}
     </header>
   )
@@ -451,9 +442,8 @@ interface LayoutProps { children: React.ReactNode }
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <a href="#main-content" className="skip-link">Ir para o conteúdo principal</a>
       <Navbar />
-      <main id="main-content" tabIndex={-1} className="pt-[70px]">{children}</main>
+      <main className="pt-[70px]">{children}</main>
       <Footer />
       <GoToTop />
       <LeadsterWidget />

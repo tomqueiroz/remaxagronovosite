@@ -96,22 +96,17 @@ function Hero() {
           </div>
         </motion.div>
       </div>
-      {/* @section: hero-scroll-control */}
-      <motion.button
-        type="button"
-        className="absolute bottom-8 left-1/2 flex min-h-11 -translate-x-1/2 flex-col items-center gap-2 rounded px-3 text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-dark-blue"
-        onClick={() => {
-          const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          document.getElementById('stats')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
-        }}
+      {/* Scroll-down indicator melhorado */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        onClick={() => document.getElementById('stats')?.scrollIntoView({ behavior: 'smooth' })}
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-        aria-label="Ir para os indicadores da REMAX Agro"
       >
-        <span className="text-xs font-light uppercase tracking-widest">Role para baixo</span>
-        <ChevronDown size={28} aria-hidden="true" />
-        <ChevronDown size={20} className="-mt-4 opacity-50" aria-hidden="true" />
-      </motion.button>
+        <span className="text-white/60 text-xs uppercase tracking-widest font-light">Role para baixo</span>
+        <ChevronDown size={28} className="text-white/60" />
+        <ChevronDown size={20} className="text-white/30 -mt-4" />
+      </motion.div>
     </section>
   )
 }
@@ -471,7 +466,7 @@ function HomeLead() {
         <div className="max-w-2xl mx-auto">
           <LeadForm
             source="home"
-            title="Fale com um Especialista"
+            title="Pronto para tomar a melhor decisão agroimobiliária?"
             subtitle="Fale com um especialista REMAX Agro."
           />
         </div>

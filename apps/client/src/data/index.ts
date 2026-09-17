@@ -129,7 +129,7 @@ export const SERVICES = [
     bullets: [
       'Permuta e consolidação de ativos',
       'Arrendamentos e parcerias rurais',
-      'Captação para fundos de investimento',
+      'Captação para fundos agroimobiliários',
       'Operações com múltiplos ativos',
       'Assessoria a investidores institucionais',
     ],
@@ -203,6 +203,5 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { label: 'Nossa Equipe', to: '/corretores' },
-  { label: 'Fazendas',     to: '/fazendas' },
   { label: 'Newsletter',   to: '/newsletter' },
 ]
