@@ -87,6 +87,50 @@ function DesktopDropdown({ link }: { link: NavLinkType }) {
   )
 }
 
+type InstitutionalLockupProps = {
+  placement: 'header' | 'footer'
+}
+
+/* @section: institutional-lockup */
+function InstitutionalLockup({ placement }: InstitutionalLockupProps) {
+  const isHeader = placement === 'header'
+
+  return (
+    <div
+      className={`flex items-center ${isHeader ? 'gap-1.5 sm:gap-3 xl:gap-4' : 'w-full max-w-[440px] gap-1.5 sm:gap-5'}`}
+      data-institutional-lockup={placement}
+      aria-label="REMAX Commercial Divisão Agro, powered by DATAGRO, CRECI 44663-J"
+    >
+      <img
+        src={ASSETS.logoBranco}
+        alt="REMAX Commercial Divisão Agro"
+        className={isHeader ? 'h-auto w-[62px] shrink-0 sm:w-[76px] xl:w-[92px]' : 'h-auto w-[100px] shrink-0 sm:w-[150px]'}
+      />
+      <span
+        className={`${isHeader ? 'h-7 sm:h-8' : 'h-12'} w-px shrink-0 bg-white/40`}
+        data-lockup-separator="first"
+        aria-hidden="true"
+      />
+      <span className={`flex min-w-0 flex-col items-start leading-none ${isHeader ? 'gap-0.5 sm:gap-1' : 'gap-1.5'}`}>
+        <span className={`${isHeader ? 'text-[5px] sm:text-[7px]' : 'text-[9px]'} font-semibold uppercase tracking-[0.16em] text-white/60`}>Powered by</span>
+        <img
+          src={ASSETS.datagroNegativo}
+          alt="DATAGRO"
+          className={isHeader ? 'h-auto w-[58px] max-w-none sm:w-[82px]' : 'h-auto w-[78px] max-w-none sm:w-[124px]'}
+        />
+      </span>
+      <span
+        className={`${isHeader ? 'h-7 sm:h-8' : 'h-12'} w-px shrink-0 bg-white/40`}
+        data-lockup-separator="second"
+        aria-hidden="true"
+      />
+      <span className={`${isHeader ? 'text-[6px] sm:text-[8px] xl:text-[9px]' : 'text-[11px] sm:text-xs'} shrink-0 font-bold tracking-[0.04em] text-white/70`}>
+        CRECI: 44663-J
+      </span>
+    </div>
+  )
+}
+
 /* @section: navbar */
 function Navbar() {
   const [open, setOpen] = useState(false)
@@ -113,34 +157,16 @@ function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-[70px]">
         {/* @section: header-brand-lockup */}
-        <Link to="/" className="flex-shrink-0 flex items-center" aria-label="REMAX Agro powered by DATAGRO">
-          <img
-            src={ASSETS.logoBranco}
-            alt="REMAX Agro"
-            className="h-11 w-[155px] object-contain sm:hidden"
-          />
-          <span className="relative hidden h-9 w-[76px] flex-shrink-0 overflow-hidden sm:block">
-            <img
-              src={ASSETS.logoBranco}
-              alt="REMAX Agro"
-              className="absolute -left-[6.22px] -top-[5.24px] h-12 w-[85.33px] max-w-none"
-            />
-          </span>
-          <span className="mx-[29px] hidden h-8 w-px flex-shrink-0 bg-white/25 sm:block" aria-hidden="true" />
-          <span className="hidden w-[83px] flex-col items-start gap-1 leading-none sm:flex">
-            <span className="text-left text-[7px] font-semibold uppercase tracking-[0.16em] text-white/55">Powered by</span>
-            <span className="relative block h-3 w-[83px] overflow-hidden">
-              <img
-                src={ASSETS.datagroNegativo}
-                alt="DATAGRO"
-                className="absolute -left-[8.4px] -top-[4.35px] h-[22.5px] w-[101px] max-w-none"
-              />
-            </span>
-          </span>
+        <Link
+          to="/"
+          className="flex min-w-0 shrink items-center"
+          aria-label="REMAX Commercial Divisão Agro, powered by DATAGRO, CRECI 44663-J"
+        >
+          <InstitutionalLockup placement="header" />
         </Link>
 
         {/* Desktop nav — sem ícones sociais */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden items-center gap-1 xl:flex">
           {NAV_LINKS.map(link =>
             link.children ? (
               <DesktopDropdown key={link.to} link={link} />
@@ -174,7 +200,7 @@ function Navbar() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setOpen(!open)}
-          className="lg:hidden text-white p-2"
+          className="p-2 text-white xl:hidden"
           aria-label={open ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={open}
           aria-controls="mobile-navigation"
@@ -185,7 +211,7 @@ function Navbar() {
 
       {/* Mobile drawer */}
       {open && (
-        <nav id="mobile-navigation" aria-label="Navegação principal mobile" className="lg:hidden bg-dark-blue border-t border-white/10 px-6 py-4 flex flex-col gap-1">
+        <nav id="mobile-navigation" aria-label="Navegação principal mobile" className="flex flex-col gap-1 border-t border-white/10 bg-dark-blue px-6 py-4 xl:hidden">
           {NAV_LINKS.map(link =>
             link.children ? (
               <div key={link.to}>
@@ -249,21 +275,18 @@ function Footer() {
   return (
     <footer className="bg-dark-blue text-white">
       {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-16 md:grid-cols-2 lg:grid-cols-4">
+        <div className="md:col-span-2 lg:col-span-4">
+          <InstitutionalLockup placement="footer" />
+        </div>
+
         {/* Brand */}
         <div className="flex flex-col items-start lg:col-span-1">
-          {/* @section: footer-brand-logo — logo branco oficial, 15% maior e alinhado à esquerda */}
-          <img
-            src={ASSETS.logoBranco}
-            alt="REMAX Agro"
-            className="mb-5 block h-auto self-start"
-            style={{ width: '230px', objectFit: 'contain' }}
-          />
-          <p className="text-white/60 text-sm leading-relaxed mb-6">
+          <p className="mb-6 text-sm leading-relaxed text-white/60">
             Todo agronegócio é, antes de mais nada, um negócio imobiliário.
           </p>
           {/* Redes sociais footer */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="mb-6 flex items-center gap-3">
             <a
               href={SOCIAL_LINKS.instagram}
               target="_blank"
@@ -301,22 +324,7 @@ function Footer() {
               <FaWhatsapp size={16} />
             </a>
           </div>
-          {/* Parceria Datagro — logo negativo (branco) -30% menor — NÃO ALTERAR SEM AUTORIZAÇÃO */}
-          <div className="flex flex-col gap-2">
-            <span className="text-white/40 text-xs uppercase tracking-widest">Em parceria com</span>
-            <a
-              href="https://portal.datagro.com/pt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block hover:opacity-100 opacity-80 transition-opacity"
-            >
-              <img
-                src={ASSETS.datagroNegativo}
-                alt="DATAGRO"
-                style={{ height: '22px', width: 'auto' }}
-              />
-            </a>
-          </div>
+
         </div>
 
         {/* Navigation */}

@@ -19,5 +19,17 @@ describe("app smoke", () => {
     expect(leadsterScript).not.toBeNull();
     expect(leadsterScript?.parentElement).toBe(document.head);
     expect(leadsterScript?.charset).toBe("UTF-8");
+
+    const headerLockup = container.querySelector('[data-institutional-lockup="header"]');
+    const footerLockup = container.querySelector('[data-institutional-lockup="footer"]');
+    for (const lockup of [headerLockup, footerLockup]) {
+      expect(lockup).not.toBeNull();
+      expect(lockup?.textContent).toContain("CRECI: 44663-J");
+      expect(lockup?.querySelectorAll('[data-lockup-separator]')).toHaveLength(2);
+      expect(lockup?.querySelector('[data-lockup-separator="first"]')?.className)
+        .toBe(lockup?.querySelector('[data-lockup-separator="second"]')?.className);
+      expect(lockup?.querySelector('img[alt="REMAX Commercial Divisão Agro"]')).not.toBeNull();
+      expect(lockup?.querySelector('img[alt="DATAGRO"]')).not.toBeNull();
+    }
   });
 });

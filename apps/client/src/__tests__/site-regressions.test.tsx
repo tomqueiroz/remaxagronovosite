@@ -72,8 +72,8 @@ describe('regressões do site REMAX Agro', () => {
     expect(BRAZIL_STATES).toHaveLength(27)
   })
 
-  it('abre o painel somente após selecionar uma UF e exibe contatos individuais como texto', () => {
-    const { container, getByLabelText, getByRole, getAllByRole, getByText, queryByRole } = render(<CorretoresLocator />)
+  it('abre o painel somente após selecionar uma UF e exibe foto, cidade e WhatsApp institucional personalizado', () => {
+    const { container, getByAltText, getByLabelText, getByRole, getAllByRole, getAllByText, getByText, queryByRole } = render(<CorretoresLocator />)
 
     expect(queryByRole('heading', { name: 'São Paulo' })).toBeNull()
     expect(getAllByRole('button', { name: /corretor|nenhum corretor/i })).toHaveLength(27)
@@ -104,11 +104,29 @@ describe('regressões do site REMAX Agro', () => {
     expect(getByText('Angel Cáceres')).not.toBeNull()
     expect(getByText('(16) 996239696')).not.toBeNull()
     expect(getByText('angelcaceres@remax.com.br')).not.toBeNull()
+    expect(getAllByText('Ribeirão Preto/SP').length).toBeGreaterThan(0)
+    expect(getByAltText('Imagem neutra para Angel Cáceres').getAttribute('src'))
+      .toBe('/images/corretores/web/corretor-placeholder.svg')
 
-    expect(container.querySelector('a[href^="https://wa.me/"]')).toBeNull()
     expect(container.querySelector('a[href^="tel:"]')).toBeNull()
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull()
-    expect(container.querySelector('img[alt^="Imagem ilustrativa"]')).toBeNull()
+
+    fireEvent.change(mobileSelector, { target: { value: 'PA' } })
+    expect(getByRole('heading', { name: 'Pará' })).not.toBeNull()
+    expect(getByText('Bruno Ribeiro Lopes')).not.toBeNull()
+    expect(getByText('Belém/PA')).not.toBeNull()
+    expect(getByAltText('Foto de Bruno Ribeiro Lopes').getAttribute('src'))
+      .toBe('/images/corretores/web/bruno-ribeiro-lopes.webp')
+
+    const brunoWhatsApp = getByRole('link', {
+      name: 'Falar no WhatsApp institucional sobre Bruno Ribeiro Lopes, de Belém/PA',
+    }) as HTMLAnchorElement
+    const brunoUrl = new URL(brunoWhatsApp.href)
+    expect(`${brunoUrl.origin}${brunoUrl.pathname}`).toBe('https://wa.me/5511915051212')
+    expect(brunoUrl.searchParams.get('text')).toBe(
+      'Gostaria de entrar em contato com o corretor Bruno Ribeiro Lopes, de Belém/PA.',
+    )
+    expect(brunoWhatsApp.href).not.toContain('corretor.phoneHref')
   })
 
   it('permite abrir por Enter e Espaço e fechar manualmente', () => {
