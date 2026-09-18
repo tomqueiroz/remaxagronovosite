@@ -13,7 +13,7 @@ const PANEL_CLOSE_DELAY = 5_000
 const STATE_LABELS: Record<string, { x: number; y: number }> = {
   AC: { x: 47, y: 221 }, AL: { x: 574, y: 229 }, AP: { x: 342, y: 76 },
   AM: { x: 204, y: 150 }, BA: { x: 496, y: 287 }, CE: { x: 554, y: 170 },
-  DF: { x: 420, y: 327 }, ES: { x: 527, y: 378 }, GO: { x: 398, y: 326 },
+  DF: { x: 423, y: 332 }, ES: { x: 527, y: 378 }, GO: { x: 398, y: 319 },
   MA: { x: 474, y: 178 }, MT: { x: 317, y: 309 }, MS: { x: 337, y: 405 },
   MG: { x: 466, y: 370 }, PA: { x: 371, y: 174 }, PB: { x: 584, y: 197 },
   PR: { x: 393, y: 468 }, PE: { x: 560, y: 216 }, PI: { x: 507, y: 214 },
@@ -182,15 +182,18 @@ export default function CorretoresLocator({ certificationSeal }: CorretoresLocat
           role="group"
           aria-label="Mapa interativo do Brasil. Use Tab para navegar entre os estados e Enter ou Espaço para selecionar."
         >
-          {locations.map((location) => {
-            const uf = location.uf
-            const isCovered = COVERED_STATES.has(uf)
-            const isSelected = selectedState === uf
-            const label = STATE_LABELS[uf]
-            const count = CORRETORES_BY_STATE[uf]?.length ?? 0
-            return (
-              <g key={location.id}>
+          {/* Os polígonos precisam ser pintados antes das siglas. Quando cada texto ficava
+              dentro do mesmo grupo do estado, polígonos posteriores encobriam rótulos
+              próximos às divisas, especialmente DF, PR, RJ, RO e SC. */}
+          <g data-map-layer="states">
+            {locations.map((location) => {
+              const uf = location.uf
+              const isCovered = COVERED_STATES.has(uf)
+              const isSelected = selectedState === uf
+              const count = CORRETORES_BY_STATE[uf]?.length ?? 0
+              return (
                 <path
+                  key={location.id}
                   d={location.path}
                   role="button"
                   tabIndex={0}
@@ -205,22 +208,35 @@ export default function CorretoresLocator({ certificationSeal }: CorretoresLocat
                 >
                   <title>{location.name} — {count ? `${count} ${count === 1 ? 'corretor' : 'corretores'}` : 'sem corretor cadastrado'}</title>
                 </path>
-                {label && (
-                  <text
-                    x={label.x}
-                    y={label.y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="pointer-events-none select-none text-[11px] font-black"
-                    fill={isSelected || isCovered ? '#ffffff' : '#51606f'}
-                    aria-hidden="true"
-                  >
-                    {uf}
-                  </text>
-                )}
-              </g>
-            )
-          })}
+              )
+            })}
+          </g>
+          <g data-map-layer="labels" aria-hidden="true">
+            {locations.map((location) => {
+              const uf = location.uf
+              const label = STATE_LABELS[uf]
+              const hasDarkFill = selectedState === uf || COVERED_STATES.has(uf)
+              if (!label) return null
+
+              return (
+                <text
+                  key={uf}
+                  data-state-label={uf}
+                  x={label.x}
+                  y={label.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="pointer-events-none select-none text-[12px] font-black"
+                  fill={hasDarkFill ? '#ffffff' : '#3f4d5a'}
+                  stroke={hasDarkFill ? '#000e35' : '#ffffff'}
+                  strokeWidth="2.4"
+                  paintOrder="stroke"
+                >
+                  {uf}
+                </text>
+              )
+            })}
+          </g>
         </svg>
 
         {/* @section: corretores-floating-panel */}

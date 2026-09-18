@@ -79,6 +79,21 @@ describe('regressões do site REMAX Agro', () => {
     expect(getAllByRole('button', { name: /corretor|nenhum corretor/i })).toHaveLength(27)
     expect(getByRole('heading', { name: 'Encontre um corretor certificado perto de você' })).not.toBeNull()
 
+    const stateLayer = container.querySelector('[data-map-layer="states"]')
+    const labelLayer = container.querySelector('[data-map-layer="labels"]')
+    const renderedLabels = Array.from(container.querySelectorAll<SVGTextElement>('[data-state-label]'))
+    expect(stateLayer).not.toBeNull()
+    expect(labelLayer).not.toBeNull()
+    expect(renderedLabels).toHaveLength(27)
+    expect(renderedLabels.map(label => label.dataset.stateLabel).sort()).toEqual(
+      BRAZIL_STATES.map(state => state.uf).sort(),
+    )
+    expect(labelLayer?.previousElementSibling).toBe(stateLayer)
+    for (const label of renderedLabels) {
+      expect(label.getAttribute('paint-order')).toBe('stroke')
+      expect(Number(label.getAttribute('stroke-width'))).toBeGreaterThanOrEqual(2)
+    }
+
     const mobileSelector = getByLabelText('Selecione o estado') as HTMLSelectElement
     expect(mobileSelector.options[0]?.style.color).toBe('#6b7280')
     expect(mobileSelector.options[1]?.style.color).toBe('#1f2937')
