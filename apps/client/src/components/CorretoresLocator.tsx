@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from 'react'
 import brazilMap from '@svg-country-maps/brazil'
-import { Mail, MapPin, Phone, UserRound, X } from 'lucide-react'
+import { MapPin, UserRound, X } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { SOCIAL_LINKS } from '@/data'
 import {
@@ -13,15 +13,15 @@ import {
 const PANEL_CLOSE_DELAY = 5_000
 
 const STATE_LABELS: Record<string, { x: number; y: number }> = {
-  AC: { x: 47, y: 221 }, AL: { x: 584, y: 229 }, AP: { x: 342, y: 76 },
-  AM: { x: 170, y: 150 }, BA: { x: 496, y: 287 }, CE: { x: 543, y: 170 },
+  AC: { x: 47, y: 221 }, AL: { x: 584, y: 229 }, AP: { x: 342, y: 68 },
+  AM: { x: 160, y: 150 }, BA: { x: 496, y: 287 }, CE: { x: 535, y: 170 },
   DF: { x: 411, y: 332 }, ES: { x: 527, y: 378 }, GO: { x: 386, y: 319 },
-  MA: { x: 448, y: 178 }, MT: { x: 317, y: 309 }, MS: { x: 306, y: 405 },
-  MG: { x: 466, y: 370 }, PA: { x: 334, y: 174 }, PB: { x: 584, y: 197 },
-  PR: { x: 366, y: 468 }, PE: { x: 560, y: 216 }, PI: { x: 481, y: 214 },
-  RJ: { x: 506, y: 432 }, RN: { x: 585, y: 174 }, RS: { x: 338, y: 556 },
-  RO: { x: 191, y: 279 }, RR: { x: 200, y: 65 }, SC: { x: 374, y: 509 },
-  SP: { x: 408, y: 424 }, SE: { x: 570, y: 251 }, TO: { x: 413, y: 255 },
+  MA: { x: 440, y: 178 }, MT: { x: 317, y: 309 }, MS: { x: 306, y: 405 },
+  MG: { x: 466, y: 370 }, PA: { x: 324, y: 174 }, PB: { x: 584, y: 197 },
+  PR: { x: 356, y: 478 }, PE: { x: 560, y: 216 }, PI: { x: 471, y: 214 },
+  RJ: { x: 506, y: 432 }, RN: { x: 585, y: 174 }, RS: { x: 328, y: 566 },
+  RO: { x: 181, y: 271 }, RR: { x: 190, y: 57 }, SC: { x: 364, y: 519 },
+  SP: { x: 398, y: 434 }, SE: { x: 570, y: 251 }, TO: { x: 403, y: 255 },
 }
 
 type CorretoresLocatorProps = {
@@ -40,7 +40,7 @@ function CorretorCard({ corretor }: { corretor: Corretor }) {
 
   return (
     <article className="grid grid-cols-[104px_minmax(0,1fr)] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-      <div className="relative min-h-44 border-r border-gray-100 bg-gray-100">
+      <div className="relative min-h-36 border-r border-gray-100 bg-gray-100">
         <img
           src={photo}
           alt={corretor.photo ? `Foto de ${corretor.name}` : `Imagem neutra para ${corretor.name}`}
@@ -48,25 +48,17 @@ function CorretorCard({ corretor }: { corretor: Corretor }) {
           loading="lazy"
         />
       </div>
-      <div className="flex min-w-0 flex-col p-3.5">
+      <div className="flex min-w-0 flex-col justify-center p-3.5">
         <h5 className="text-sm font-black leading-tight text-dark-blue">{corretor.name}</h5>
         <p className="mt-1.5 flex items-start gap-1.5 text-xs font-semibold leading-snug text-gray-600">
           <MapPin size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
           <span>{corretor.city}</span>
         </p>
-        <p className="mt-3 flex items-start gap-1.5 break-words text-xs leading-snug text-gray-600">
-          <Phone size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
-          <span>{corretor.phone}</span>
-        </p>
-        <p className="mt-2 flex items-start gap-1.5 break-all text-xs leading-snug text-gray-600">
-          <Mail size={13} className="mt-0.5 shrink-0 text-bridge-red" aria-hidden="true" />
-          <span>{corretor.email}</span>
-        </p>
         <a
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-green-700 px-3 py-2 text-xs font-black text-white transition-colors hover:bg-green-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
+          className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-green-700 px-3 py-2 text-xs font-black text-white transition-colors hover:bg-green-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
           aria-label={`Falar no WhatsApp institucional sobre ${corretor.name}, de ${corretor.city}`}
         >
           <FaWhatsapp size={15} aria-hidden="true" />

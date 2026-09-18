@@ -94,6 +94,17 @@ describe('regressões do site REMAX Agro', () => {
       expect(Number(label.getAttribute('stroke-width'))).toBeGreaterThanOrEqual(2)
     }
 
+    const adjustedCoordinates = {
+      AP: [342, 68], AM: [160, 150], CE: [535, 170], MA: [440, 178],
+      PA: [324, 174], PI: [471, 214], PR: [356, 478], RO: [181, 271],
+      RR: [190, 57], RS: [328, 566], SC: [364, 519], SP: [398, 434], TO: [403, 255],
+    } as const
+    for (const [uf, [x, y]] of Object.entries(adjustedCoordinates)) {
+      const label = container.querySelector<SVGTextElement>(`[data-state-label="${uf}"]`)
+      expect(label?.getAttribute('x')).toBe(String(x))
+      expect(label?.getAttribute('y')).toBe(String(y))
+    }
+
     const mobileSelector = getByLabelText('Selecione o estado') as HTMLSelectElement
     expect(mobileSelector.options[0]?.style.color).toBe('#6b7280')
     expect(mobileSelector.options[1]?.style.color).toBe('#1f2937')
@@ -102,14 +113,16 @@ describe('regressões do site REMAX Agro', () => {
     fireEvent.click(getByRole('button', { name: /^São Paulo:/i }))
     expect(getByRole('heading', { name: 'São Paulo' })).not.toBeNull()
     expect(getByText('Angel Cáceres')).not.toBeNull()
-    expect(getByText('(16) 996239696')).not.toBeNull()
-    expect(getByText('angelcaceres@remax.com.br')).not.toBeNull()
+    expect(container.textContent).not.toContain('(16) 996239696')
+    expect(container.textContent).not.toContain('angelcaceres@remax.com.br')
     expect(getAllByText('Ribeirão Preto/SP').length).toBeGreaterThan(0)
     expect(getByAltText('Imagem neutra para Angel Cáceres').getAttribute('src'))
       .toBe('/images/corretores/web/corretor-placeholder.svg')
 
     expect(container.querySelector('a[href^="tel:"]')).toBeNull()
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull()
+    expect(container.querySelector('[data-lucide="phone"]')).toBeNull()
+    expect(container.querySelector('[data-lucide="mail"]')).toBeNull()
 
     fireEvent.change(mobileSelector, { target: { value: 'PA' } })
     expect(getByRole('heading', { name: 'Pará' })).not.toBeNull()
