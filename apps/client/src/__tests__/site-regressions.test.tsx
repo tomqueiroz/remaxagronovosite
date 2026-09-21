@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import LeadForm from '@/components/LeadForm'
 import CorretoresLocator from '@/components/CorretoresLocator'
+import Layout from '@/components/Layout'
 import { BRAZIL_STATES, CORRETORES } from '@/data/corretores'
 import Servicos from '@/pages/Servicos'
 import Fazendas from '@/pages/Fazendas'
@@ -204,12 +205,25 @@ describe('regressões do site REMAX Agro', () => {
     expect(queryByText(/Santa Helena/i)).toBeNull()
   })
 
-  it('mantém o submenu Fazendas restrito à Fazenda Itapirapuã', () => {
+  it('mantém as rotas de Fazendas no dataset, mas oculta seus links no menu e no footer', () => {
     const farmsLink = NAV_LINKS.find(link => link.label === 'Fazendas')
 
     expect(farmsLink?.children).toEqual([
       { label: 'Fazenda Itapirapuã', to: '/fazendas/itapirapua' },
     ])
+
+    const { container, getByRole } = render(
+      <MemoryRouter>
+        <Layout><p>Conteúdo</p></Layout>
+      </MemoryRouter>,
+    )
+
+    expect(container.querySelector('a[href="/fazendas"]')).toBeNull()
+    expect(container.querySelector('a[href="/fazendas/itapirapua"]')).toBeNull()
+
+    fireEvent.click(getByRole('button', { name: 'Abrir menu' }))
+    expect(container.querySelector('#mobile-navigation a[href="/fazendas"]')).toBeNull()
+    expect(container.querySelector('#mobile-navigation a[href="/fazendas/itapirapua"]')).toBeNull()
   })
 
   it('navega pelo carrossel com botões, miniaturas e teclado', () => {

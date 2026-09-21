@@ -4,6 +4,8 @@ import { Menu, X, ChevronDown, ChevronUp, Phone, Mail, MapPin } from 'lucide-rea
 import { FaInstagram, FaLinkedinIn, FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 import { ASSETS, NAV_LINKS, SOCIAL_LINKS, type NavLink as NavLinkType } from '@/data'
 
+const VISIBLE_NAV_LINKS = NAV_LINKS.filter(link => link.to !== '/fazendas')
+
 /* @section: go-to-top */
 function GoToTop() {
   const [visible, setVisible] = useState(false)
@@ -167,7 +169,7 @@ function Navbar() {
 
         {/* Desktop nav — sem ícones sociais */}
         <nav className="hidden items-center gap-1 xl:flex">
-          {NAV_LINKS.map(link =>
+          {VISIBLE_NAV_LINKS.map(link =>
             link.children ? (
               <DesktopDropdown key={link.to} link={link} />
             ) : (
@@ -212,7 +214,7 @@ function Navbar() {
       {/* Mobile drawer */}
       {open && (
         <nav id="mobile-navigation" aria-label="Navegação principal mobile" className="flex flex-col gap-1 border-t border-white/10 bg-dark-blue px-6 py-4 xl:hidden">
-          {NAV_LINKS.map(link =>
+          {VISIBLE_NAV_LINKS.map(link =>
             link.children ? (
               <div key={link.to}>
                 <button
@@ -331,7 +333,7 @@ function Footer() {
         <div>
           <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-5">Navegação</h4>
           <ul className="space-y-3">
-            {NAV_LINKS.map(link => (
+            {VISIBLE_NAV_LINKS.map(link => (
               <li key={link.to}>
                 <Link
                   to={link.to}
