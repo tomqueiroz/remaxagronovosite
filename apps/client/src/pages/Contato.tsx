@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { Phone, Mail, MapPin, Clock, MessageSquare, ChevronDown } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { ASSETS } from '@/data'
@@ -163,43 +164,17 @@ function ContatoMain() {
   )
 }
 
-/* @section: contato-areas */
-function AreasAtuacao() {
-  const areas = [
-    { state: 'MT', name: 'Mato Grosso', desc: 'Soja, Milho, Algodão, Pecuária' },
-    { state: 'GO', name: 'Goiás', desc: 'Soja, Milho, Cana-de-Açúcar' },
-    { state: 'MS', name: 'Mato Grosso do Sul', desc: 'Pecuária, Soja, Milho' },
-    { state: 'SP', name: 'São Paulo', desc: 'Cana-de-Açúcar, Citros, Eucalipto' },
-    { state: 'MG', name: 'Minas Gerais', desc: 'Café, Pecuária, Eucalipto' },
-    { state: 'BA', name: 'Bahia', desc: 'Soja, Algodão, Milho' },
-    { state: 'PA', name: 'Pará', desc: 'Soja, Pecuária, Florestal' },
-    { state: 'RS', name: 'Rio Grande do Sul', desc: 'Soja, Milho, Arroz' },
-  ]
-
+/* @section: contato-services-cta */
+function ContatoServicesCTA() {
   return (
-    <section className="py-20 bg-off-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12 text-center">
-          <span className="section-divider mx-auto" />
-          <h2 className="text-4xl font-black text-dark-blue mb-3">Área de Atuação</h2>
-          <p className="text-gray-500">Presença em todos os principais polos agrícolas do Brasil</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {areas.map((a, i) => (
-            <motion.div
-              key={a.state}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
-              className="bg-white rounded-lg p-5 border border-gray-100 card-premium"
-            >
-              <div className="text-bridge-red font-black text-2xl mb-1">{a.state}</div>
-              <div className="text-dark-blue font-bold text-sm mb-1">{a.name}</div>
-              <div className="text-gray-400 text-xs">{a.desc}</div>
-            </motion.div>
-          ))}
-        </div>
+    <section className="bg-off-white px-6 py-20">
+      <div className="mx-auto max-w-7xl">
+        <Link
+          to="/servicos"
+          className="flex min-h-20 w-full items-center justify-center rounded-lg bg-bridge-red px-8 py-6 text-center text-base font-black uppercase tracking-widest text-white transition-colors hover:bg-dark-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bridge-red focus-visible:ring-offset-2 sm:text-lg"
+        >
+          Conheça Nossos Serviços
+        </Link>
       </div>
     </section>
   )
@@ -210,7 +185,7 @@ export default function Contato() {
     <>
       <ContatoHero />
       <ContatoMain />
-      <AreasAtuacao />
+      <ContatoServicesCTA />
       <FaqSection />
     </>
   )

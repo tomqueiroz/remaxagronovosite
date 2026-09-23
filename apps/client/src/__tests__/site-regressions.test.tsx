@@ -5,6 +5,7 @@ import LeadForm from '@/components/LeadForm'
 import CorretoresLocator from '@/components/CorretoresLocator'
 import Layout from '@/components/Layout'
 import { BRAZIL_STATES, CORRETORES } from '@/data/corretores'
+import Contato from '@/pages/Contato'
 import Servicos from '@/pages/Servicos'
 import Fazendas from '@/pages/Fazendas'
 import FazendaItapirapua from '@/pages/FazendaItapirapua'
@@ -170,6 +171,21 @@ describe('regressões do site REMAX Agro', () => {
 
     act(() => vi.advanceTimersByTime(1))
     expect(queryByRole('heading', { name: 'São Paulo' })).toBeNull()
+  })
+
+  it('substitui Áreas de Atuação por um CTA para o topo de Nossos Serviços', () => {
+    const { container, getByRole, queryByRole, queryByText } = render(
+      <MemoryRouter>
+        <Contato />
+      </MemoryRouter>,
+    )
+
+    expect(queryByRole('heading', { name: /Área de Atuação/i })).toBeNull()
+    expect(queryByText(/Presença em todos os principais polos agrícolas/i)).toBeNull()
+
+    const servicesLink = getByRole('link', { name: 'Conheça Nossos Serviços' }) as HTMLAnchorElement
+    expect(servicesLink.getAttribute('href')).toBe('/servicos')
+    expect(container.querySelector('[data-section="contato-areas"]')).toBeNull()
   })
 
   it('preserva títulos semânticos e controles acessíveis nos serviços', () => {
