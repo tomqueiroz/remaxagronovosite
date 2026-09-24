@@ -214,7 +214,7 @@ describe('regressões do site REMAX Agro', () => {
       </MemoryRouter>,
     )
 
-    expect(getByRole('heading', { level: 1 }).textContent).toContain('Fazenda Itapirapuã')
+    expect(getByRole('heading', { level: 1 }).textContent).toContain('Fazenda em Itapirapuã')
     expect(getByText('230 hectares')).not.toBeNull()
     expect(getByText('170 hectares')).not.toBeNull()
     expect(getByText('R$ 4.600.000,00')).not.toBeNull()

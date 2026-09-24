@@ -27,7 +27,7 @@ const ROUTE_METADATA: Record<string, { title: string; description: string; canon
     description: 'Conheça as propriedades rurais apresentadas pela REMAX Agro e acesse informações organizadas para uma primeira análise da oportunidade.',
   },
   '/fazendas/itapirapua': {
-    title: 'Fazenda Itapirapuã | Imóvel Rural em Goiás | REMAX Agro',
+    title: 'Fazenda em Itapirapuã | Imóvel Rural em Goiás | REMAX Agro',
     description: 'Conheça a Fazenda Itapirapuã, propriedade rural de 230 hectares em Goiás apresentada pela REMAX Agro, com pastagem e infraestrutura documentada.',
   },
   '/newsletter': {

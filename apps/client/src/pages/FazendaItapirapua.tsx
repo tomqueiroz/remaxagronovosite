@@ -93,7 +93,7 @@ function FarmIntroduction() {
           </div>
           <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.24em] text-[#e39aa2]">Fazendas REMAX Agro</p>
           <h1 className="mt-4 max-w-4xl text-5xl font-black leading-[1.05] text-white md:text-6xl lg:text-7xl">
-            Fazenda Itapirapuã
+            Fazenda em Itapirapuã
           </h1>
           <p className="mt-7 max-w-3xl text-base leading-relaxed text-white/72 sm:text-lg">
             Ativo rural com área consolidada, infraestrutura operacional instalada e atividade atual de pastagem em Itapirapuã, Goiás.
